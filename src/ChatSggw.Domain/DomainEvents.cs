@@ -4,39 +4,39 @@ using Neat.CQRSLite.Contract.Events;
 
 namespace ChatSggw.Domain
 {
+    //http://udidahan.com/2009/06/14/domain-events-salvation/
     public static class DomainEvents
     {
-        private static readonly List<Action<IEvent>> EventHandlers = new List<Action<IEvent>>();
+        [ThreadStatic] //so that each thread has its own callbacks
+        private static List<Delegate> actions;
 
-        public static void Publish(IEvent @event)
+        public static IEventBus EventBus { get; set; } //as before
+
+        //Registers a callback for the given domain event
+        public static void Register<T>(Action<T> callback) where T : IEvent
         {
-            EventHandlers.ForEach(handler => handler(@event));
+            if (actions == null)
+                actions = new List<Delegate>();
+
+            actions.Add(callback);
         }
 
-        public static SubscriptionToken RegisterEventHandler(Action<IEvent> handler)
+        //Clears callbacks passed to Register on the current thread
+        public static void ClearCallbacks()
         {
-            if (handler == null)
-                throw new ArgumentNullException(nameof(handler));
-
-            var token = new SubscriptionToken(handler);
-            EventHandlers.Add(handler);
-            return token;
+            actions = null;
         }
 
-        public sealed class SubscriptionToken : IDisposable
+        //Raises the given domain event
+        public static void Raise<T>(T args) where T : IEvent
         {
-            private readonly Action<IEvent> _handler;
+            EventBus?.Send(args);
 
-            public SubscriptionToken(Action<IEvent> handler)
-            {
-                _handler = handler;
-            }
-
-            public void Dispose()
-            {
-                EventHandlers.Remove(_handler);
-                GC.SuppressFinalize(this);
-            }
+            if (actions != null)
+                foreach (var action in actions)
+                {
+                    (action as Action<T>)?.Invoke(args);
+                }
         }
     }
 }
