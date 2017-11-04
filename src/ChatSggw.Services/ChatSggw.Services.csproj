@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0B3870F8-CB80-4EC7-88ED-055303EC3AEB}</ProjectGuid>
+    <ProjectGuid>{6CF2A8E7-A325-497A-B439-82058CCD9878}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChatSggw.Domain</RootNamespace>
-    <AssemblyName>ChatSggw.Domain</AssemblyName>
+    <RootNamespace>ChatSggw.Services</RootNamespace>
+    <AssemblyName>ChatSggw.Services</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Neat.CQRSLite.Contract, Version=0.1.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Neat.CQRSLite.Contract.0.1.8-alpha\lib\net452\Neat.CQRSLite.Contract.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,20 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainEvents.cs" />
-    <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Comands\" />
-    <Folder Include="DTO\" />
-    <Folder Include="Entities\" />
-    <Folder Include="Events\" />
+    <Folder Include="EventsHandlers\" />
     <Folder Include="Queries\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
