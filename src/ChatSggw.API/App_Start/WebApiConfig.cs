@@ -1,4 +1,8 @@
-﻿using System.Web.Http;
+﻿using System.ComponentModel;
+using System.Web.Http;
+using Castle.Windsor;
+using Castle.Windsor.Installer;
+using ChatSggw.API.Infrastructure;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
@@ -6,8 +10,14 @@ namespace ChatSggw.API
 {
     public static class WebApiConfig
     {
+        private static WindsorContainer Container { get; set; }
+
         public static void Register(HttpConfiguration config)
         {
+            Container = new WindsorContainer();
+            Container.Install(FromAssembly.This());
+            GlobalConfiguration.Configuration.DependencyResolver = new DependencyResolver(Container.Kernel);
+
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();

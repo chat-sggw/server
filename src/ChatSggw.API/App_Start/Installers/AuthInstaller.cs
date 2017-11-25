@@ -1,26 +1,43 @@
-﻿using Castle.Windsor.Installer;
-using ChatSggw.API.App_Start.Installers;
-using ChatSggw.API.Infrastructure;
-using System.Web.Http;
+﻿using System.Configuration;
+using System.Data.Entity;
+using System.Web;
+using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.SubSystems.Configuration;
+using Castle.Windsor;
+using ChatSggw.API.Models;
+using ChatSggw.DataLayer;
+using ChatSggw.Domain;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(AuthInstaller), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(AuthInstaller), "Shutdown")]
-
-namespace ChatSggw.API.App_Start.Installers
+namespace ChatSggw.API.Installers
 {
-    public class AuthInstaller
+    public class AuthInstaller : IWindsorInstaller
     {
-        public static void Start()
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            var container = DIContainer.GetConfiguredContainer();
-            container.Install(FromAssembly.This());
-            GlobalConfiguration.Configuration.DependencyResolver = new DependencyResolver(container.Kernel);
-        }
-
-        public static void Shutdown()
-        {
-            var container = DIContainer.GetConfiguredContainer();
-            container.Dispose();
+            container.Register(
+                Component
+                    .For<ApplicationDbContext>()
+                    .DependsOn(Dependency.OnValue<string>("DefaultConnection"))
+                    .LifestyleTransient(),
+                Component
+                    .For<IUserStore<ApplicationUser>>()
+                    .ImplementedBy<UserStore<ApplicationUser>>()
+                    .DependsOn(Dependency.OnComponent<DbContext, ApplicationDbContext>())
+                    .LifestyleTransient(),
+                Component
+                    .For<IAuthenticationManager>()
+                    .UsingFactoryMethod(kernel => HttpContext.Current.GetOwinContext().Authentication)
+                    .LifestyleTransient(),
+                Component
+                    .For<ApplicationSignInManager>()
+                    .LifestyleTransient(),
+                Component
+                    .For<ApplicationUserManager>()
+                    .LifestyleTransient()
+            );
         }
     }
 }
