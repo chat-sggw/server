@@ -23,6 +23,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -159,6 +160,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\DIContainer.cs" />
+    <Compile Include="App_Start\Installers\AuthInstaller.cs" />
     <Compile Include="App_Start\Installers\DataLayerInstaller.cs" />
     <Compile Include="App_Start\Installers\ServiceInstaller.cs" />
     <Compile Include="App_Start\Installers\WebApiInstaller.cs" />

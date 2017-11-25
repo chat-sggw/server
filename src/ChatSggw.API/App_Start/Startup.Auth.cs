@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using ChatSggw.API.Models;
 using ChatSggw.API.Providers;
+using ChatSggw.API.App_Start;
 
 namespace ChatSggw.API
 {
@@ -33,15 +34,17 @@ namespace ChatSggw.API
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
         public static string PublicClientId { get; private set; }
+        
+        internal static IDataProtectionProvider DataProtectionProvider { get; private set; }
 
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
-            // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            DataProtectionProvider = app.GetDataProtectionProvider();
 
+            // Configure the db context, user manager and signin manager to use a single instance per request
+            app.CreatePerOwinContext(() => DIContainer.GetConfiguredContainer().Resolve<ApplicationUserManager>());
+            
             // Enable the application to use a cookie to store information for the signed in user
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {

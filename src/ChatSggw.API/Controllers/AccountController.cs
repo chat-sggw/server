@@ -3,17 +3,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Description;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Swashbuckle.Swagger.Annotations;
-using ChatSggw.API;
 using ChatSggw.API.Models;
-using System.Security.Claims;
-using ChatSggw.API.Results;
 
 namespace ChatSggw.API.Controllers
 {
@@ -288,38 +283,9 @@ namespace ChatSggw.API.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (userManager != null)
-                {
-                    userManager.Dispose();
-                    //userManager = null;
-                }
-
-                if (signInManager != null)
-                {
-                    signInManager.Dispose();
-                    //signInManager = null;
-                }
-            }
-
-            base.Dispose(disposing);
-        }
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
-
-        /*private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.Current.GetOwinContext().Authentication;
-            }
-        }*/
 
         private void AddErrors(IdentityResult result)
         {
