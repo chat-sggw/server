@@ -10,7 +10,7 @@ namespace ChatSggw.API
 {
     public static class WebApiConfig
     {
-        private static WindsorContainer Container { get; set; }
+        public static WindsorContainer Container { get; set; }
 
         public static void Register(HttpConfiguration config)
         {

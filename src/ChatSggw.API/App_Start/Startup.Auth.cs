@@ -10,7 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using ChatSggw.API.Models;
 using ChatSggw.API.Providers;
-using ChatSggw.API.App_Start;
+using ChatSggw.API.Infrastructure;
 
 namespace ChatSggw.API
 {
@@ -43,7 +43,7 @@ namespace ChatSggw.API
             DataProtectionProvider = app.GetDataProtectionProvider();
 
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(() => DIContainer.GetConfiguredContainer().Resolve<ApplicationUserManager>());
+            app.CreatePerOwinContext(() => WebApiConfig.Container.Resolve<ApplicationUserManager>());
             
             // Enable the application to use a cookie to store information for the signed in user
             app.UseCookieAuthentication(new CookieAuthenticationOptions
