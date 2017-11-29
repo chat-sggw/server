@@ -33,7 +33,7 @@ namespace ChatSggw.API.Controllers
         [SwaggerResponse(HttpStatusCode.OK)]
         public async Task<HttpResponseMessage> RemoveLogin(string loginProvider, string providerKey)
         {
-            ManageMessageId? message;
+            //ManageMessageId? message;
             var result = await userManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
@@ -42,13 +42,13 @@ namespace ChatSggw.API.Controllers
                 {
                     await signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                message = ManageMessageId.RemoveLoginSuccess;
+                //message = ManageMessageId.RemoveLoginSuccess;
                 // necessary \/ ?
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             else
             {
-                message = ManageMessageId.Error;
+                //message = ManageMessageId.Error;
             }
             //return RedirectToAction("ManageLogins", new { Message = message });
             return Request.CreateResponse(HttpStatusCode.BadRequest);

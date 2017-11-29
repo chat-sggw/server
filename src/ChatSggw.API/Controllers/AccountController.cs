@@ -28,35 +28,6 @@ namespace ChatSggw.API.Controllers
         }
 
         //
-        // POST: /Account/Login
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("login")]
-        [SwaggerResponse(HttpStatusCode.BadRequest)]
-        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(LoginResponseDTO))]
-        public async Task<HttpResponseMessage> Login(LoginParams model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-            }
-
-            var result = await signInManager.PasswordSignInAsync(model.Login, model.Password, true, false);
-
-            Guid? userId = null;
-            if (result == SignInStatus.Success)
-            {
-                ApplicationUser user = userManager.FindByName(model.Login);
-                userId = Guid.Parse(user.Id);
-            }
-            return Request.CreateResponse(HttpStatusCode.OK, new LoginResponseDTO
-            {
-                UserId = userId,
-                Status = result,
-            });
-        }
-
-        //
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
