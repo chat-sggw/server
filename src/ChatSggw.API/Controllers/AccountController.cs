@@ -4,11 +4,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using ChatSggw.API.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Swashbuckle.Swagger.Annotations;
-using ChatSggw.API.Models;
 
 namespace ChatSggw.API.Controllers
 {
@@ -16,56 +16,18 @@ namespace ChatSggw.API.Controllers
     [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
-        private readonly ApplicationUserManager userManager;
-        private readonly ApplicationSignInManager signInManager;
-        private readonly IAuthenticationManager authenticationManager;
+        private readonly IAuthenticationManager _authenticationManager;
+        private readonly ApplicationSignInManager _signInManager;
+        private readonly ApplicationUserManager _userManager;
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IAuthenticationManager authenticationManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,
+            IAuthenticationManager authenticationManager)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.authenticationManager = authenticationManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _authenticationManager = authenticationManager;
         }
 
-        //
-        // POST: /Account/VerifyCode
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("verifycode")]
-        [SwaggerResponse(HttpStatusCode.BadRequest)]
-        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(VerifyCodeResponseDTO))]
-        public async Task<HttpResponseMessage> VerifyCode(VerifyCodeParams model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-            }
-
-            // The following code protects for brute force attacks against the two factor codes. 
-            // If a user enters incorrect codes for a specified amount of time then the user account 
-            // will be locked out for a specified amount of time. 
-            // You can configure the account lockout settings in IdentityConfig
-            var result = await signInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
-
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return Request.CreateResponse(HttpStatusCode.OK, new VerifyCodeResponseDTO
-                    {
-                        Status = result
-                    });
-                case SignInStatus.LockedOut:
-                    ModelState.AddModelError("", "Locked out.");
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid code.");
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-            }
-        }
-
-        //
-        // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
@@ -75,11 +37,11 @@ namespace ChatSggw.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Login, Email = model.Email };
-                var result = await userManager.CreateAsync(user, model.Password);
+                var user = new ApplicationUser {UserName = model.Login, Email = model.Email};
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user, false, false);
+                    await _signInManager.SignInAsync(user, false, false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -87,186 +49,33 @@ namespace ChatSggw.API.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return Request.CreateResponse(HttpStatusCode.OK, new RegisterResponseDTO()
+                    return Request.CreateResponse(HttpStatusCode.OK, new RegisterResponseDTO
                     {
                         UserId = Guid.Parse(user.Id)
                     });
                 }
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
-            //todo add error model
-            return Request.CreateResponse((HttpStatusCode)422, ModelState);
+            return Request.CreateResponse((HttpStatusCode) 422, ModelState);
         }
 
-        //
-        // POST: /Account/ForgotPassword
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("forgotpassword")]
-        [SwaggerResponse(HttpStatusCode.BadRequest)]
-        [SwaggerResponse(HttpStatusCode.NotImplemented)]
-        public async Task<HttpResponseMessage> ForgotPassword(ForgotPasswordParams model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await userManager.FindByNameAsync(model.Email);
-                if (user == null || !(await userManager.IsEmailConfirmedAsync(user.Id)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return Request.CreateResponse(HttpStatusCode.BadRequest);
-                }
-
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
-            }
-
-            // If we got this far, something failed, redisplay form
-            return Request.CreateResponse(HttpStatusCode.NotImplemented);
-        }
-
-        //
-        // POST: /Account/ResetPassword
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("resetpassword")]
-        [SwaggerResponse(HttpStatusCode.BadRequest)]
-        [SwaggerResponse(HttpStatusCode.OK)]
-        public async Task<HttpResponseMessage> ResetPassword(ResetPasswordParams model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-            var user = await userManager.FindByNameAsync(model.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-            var result = await userManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK);
-            }
-            return Request.CreateResponse(HttpStatusCode.BadRequest);
-        }
-
-        //
-        // POST: /Account/ExternalLogin
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("externallogin")]
-        [SwaggerResponse(HttpStatusCode.NotImplemented)]
-        public HttpResponseMessage ExternalLogin(string provider, string returnUrl)
-        {
-            // Request a redirect to the external login provider
-            //return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-            // todo not implemented
-            return Request.CreateResponse(HttpStatusCode.NotImplemented);
-        }
-
-        //
-        // POST: /Account/SendCode
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("sendcode")]
-        [SwaggerResponse(HttpStatusCode.BadRequest)]
-        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(SendCodeDTO))]
-        public async Task<HttpResponseMessage> SendCode(SendCodeParams model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-
-            // Generate the token and send it
-            if (!await signInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-            return Request.CreateResponse(HttpStatusCode.OK, new SendCodeDTO
-            {
-                //todo necessary?
-                SelectedProvider = model.SelectedProvider,
-                RememberMe = model.RememberMe,
-                ReturnUrl = model.ReturnUrl
-            });
-
-        }
-
-        //
-        // POST: /Account/ExternalLoginConfirmation
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("externalloginconfirmation")]
-        [SwaggerResponse(HttpStatusCode.BadRequest)]
-        [SwaggerResponse(HttpStatusCode.OK)]
-        public async Task<HttpResponseMessage> ExternalLoginConfirmation(ExternalLoginConfirmationParams model, string returnUrl)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK);
-            }
-
-            if (ModelState.IsValid)
-            {
-                // Get the information about the user from the external login provider
-                var info = await authenticationManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
-                    // "ExternalLoginFailure"
-                    return Request.CreateResponse(HttpStatusCode.BadRequest);
-                }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Hometown = model.Hometown };
-                var result = await userManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
-                    result = await userManager.AddLoginAsync(user.Id, info.Login);
-                    if (result.Succeeded)
-                    {
-                        await signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return Request.CreateResponse(HttpStatusCode.OK);
-                    }
-                }
-                AddErrors(result);
-            }
-
-            //ViewBag.ReturnUrl = returnUrl;
-            //return View(model);
-            return Request.CreateResponse(HttpStatusCode.BadRequest);
-        }
-
-        //
-        // POST: /Account/LogOff
         [HttpPost]
         [AllowAnonymous]
         [Route("logoff")]
         [SwaggerResponse(HttpStatusCode.OK)]
         public HttpResponseMessage LogOff()
         {
-            authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            _authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        #region Helpers
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
 
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
-            {
                 ModelState.AddModelError("", error);
-            }
         }
-
-        #endregion
     }
 
     public class LoginParams
@@ -292,6 +101,7 @@ namespace ChatSggw.API.Controllers
         [Required]
         [Display(Name = "Code")]
         public string Code { get; set; }
+
         public string ReturnUrl { get; set; }
 
         [Display(Name = "Remember this browser?")]
@@ -361,7 +171,6 @@ namespace ChatSggw.API.Controllers
     public class SendCodeParams
     {
         public string SelectedProvider { get; set; }
-        //public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }//todo
         public string ReturnUrl { get; set; }
         public bool RememberMe { get; set; }
     }
@@ -369,7 +178,6 @@ namespace ChatSggw.API.Controllers
     public class SendCodeDTO
     {
         public string SelectedProvider { get; set; }
-        //public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }//todo
         public string ReturnUrl { get; set; }
         public bool RememberMe { get; set; }
     }
@@ -383,6 +191,4 @@ namespace ChatSggw.API.Controllers
         [Display(Name = "Hometown")]
         public string Hometown { get; set; }
     }
-
-
 }
