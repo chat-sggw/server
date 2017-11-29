@@ -6,6 +6,7 @@ using Swashbuckle.Application;
 using System.IO;
 using System;
 using System.Reflection;
+using ChatSggw.API.App_Start;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -37,6 +38,8 @@ namespace ChatSggw.API
                         // additional fields by chaining methods off SingleApiVersion.
                         //
                         c.SingleApiVersion("v1", "ChatSggw.API");
+
+                        c.DocumentFilter<AuthTokenOperation>();
 
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //
