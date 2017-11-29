@@ -190,6 +190,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <EmbeddedResource Include="Swagger\CustomSwagger.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
