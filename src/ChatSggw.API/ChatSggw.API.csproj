@@ -160,7 +160,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AuthTokenOperation.cs" />
+    <Compile Include="Swagger\filters\AuthTokenOperation.cs" />
     <Compile Include="App_Start\Installers\AuthInstaller.cs" />
     <Compile Include="App_Start\Installers\DataLayerInstaller.cs" />
     <Compile Include="App_Start\Installers\ServiceInstaller.cs" />

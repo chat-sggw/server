@@ -6,7 +6,8 @@ using Swashbuckle.Application;
 using System.IO;
 using System;
 using System.Reflection;
-using ChatSggw.API.App_Start;
+using ChatSggw.API.Swagger;
+using ChatSggw.API.Swagger.filters;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 

@@ -1,11 +1,8 @@
-﻿using Swashbuckle.Swagger;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Http.Description;
+using Swashbuckle.Swagger;
 
-namespace ChatSggw.API.App_Start
+namespace ChatSggw.API.Swagger.filters
 {
     public class AuthTokenOperation : IDocumentFilter
     {
@@ -26,7 +23,8 @@ namespace ChatSggw.API.App_Start
                         type = "string",
                         name = "grant_type",
                         required = true,
-                        @in = "formData"
+                        @in = "formData",
+                        @default = "password"
                     },
                     new Parameter
                     {
