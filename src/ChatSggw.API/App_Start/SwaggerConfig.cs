@@ -69,11 +69,11 @@ namespace ChatSggw.API
                         //    .Description("Basic HTTP Authentication");
                         //
                         // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
-                        //c.ApiKey("apiKey")
-                        //    .Description("API Key Authentication")
-                        //    .Name("apiKey")
-                        //    .In("header");
-                        //
+                        c.ApiKey("Token")
+                            .Description("Filling bearer token here")
+                            .Name("Authorization")
+                            .In("header");
+
                         //c.OAuth2("oauth2")
                         //    .Description("OAuth2 Implicit Grant")
                         //    .Flow("implicit")
@@ -153,7 +153,7 @@ namespace ChatSggw.API
                         // enum type. Swashbuckle will honor this change out-of-the-box. However, if you use a different
                         // approach to serialize enums as strings, you can also force Swashbuckle to describe them as strings.
                         //
-                        //c.DescribeAllEnumsAsStrings();
+                        c.DescribeAllEnumsAsStrings();
 
                         // Similar to Schema filters, Swashbuckle also supports Operation and Document filters:
                         //
@@ -204,7 +204,7 @@ namespace ChatSggw.API
                         // has loaded. The file must be included in your project as an "Embedded Resource", and then the resource's
                         // "Logical Name" is passed to the method as shown above.
                         //
-                        //c.InjectJavaScript(thisAssembly, "Swashbuckle.Dummy.SwaggerExtensions.testScript1.js");
+                        c.InjectJavaScript(thisAssembly, "ChatSggw.API.Swagger.CustomSwagger.js");
 
                         // The swagger-ui renders boolean data types as a dropdown. By default, it provides "true" and "false"
                         // strings as the possible choices. You can use this option to change these to something else,
@@ -258,7 +258,7 @@ namespace ChatSggw.API
                         // If your API supports ApiKey, you can override the default values.
                         // "apiKeyIn" can either be "query" or "header"
                         //
-                        //c.EnableApiKeySupport("apiKey", "header");
+                        c.EnableApiKeySupport("Authorization", "header");
                     });
         }
 
