@@ -34,6 +34,7 @@
       <HintPath>..\packages\Neat.CQRSLite.Contract.0.1.8-alpha\lib\net452\Neat.CQRSLite.Contract.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,19 +45,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainEvents.cs" />
+    <Compile Include="DTO\ConversationModel.cs" />
+    <Compile Include="DTO\DirectConversationModel.cs" />
+    <Compile Include="DTO\GroupConversationModel.cs" />
+    <Compile Include="DTO\MessageModel.cs" />
+    <Compile Include="DTO\UserModel.cs" />
+    <Compile Include="Entities\DirectConversation.cs" />
+    <Compile Include="Structs\GeoInformation.cs" />
+    <Compile Include="Entities\GroupConversation.cs" />
+    <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Comands\" />
-    <Folder Include="DTO\" />
-    <Folder Include="Entities\" />
     <Folder Include="Events\" />
     <Folder Include="Queries\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
