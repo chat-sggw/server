@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using ChatSggw.API.Models;
+using ChatSggw.DataLayer.IdentityModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -37,7 +38,11 @@ namespace ChatSggw.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {UserName = model.Login, Email = model.Email};
+                var user = new ApplicationUser
+                {
+                    UserName = model.Login,
+                    Email = model.Email,
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -51,7 +56,7 @@ namespace ChatSggw.API.Controllers
 
                     return Request.CreateResponse(HttpStatusCode.OK, new RegisterResponseDTO
                     {
-                        UserId = Guid.Parse(user.Id)
+                        UserId = user.Id,
                     });
                 }
                 AddErrors(result);

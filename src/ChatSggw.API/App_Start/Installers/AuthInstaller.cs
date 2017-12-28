@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Data.Entity;
 using System.Web;
 using Castle.MicroKernel.Registration;
@@ -6,6 +7,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using ChatSggw.API.Models;
 using ChatSggw.DataLayer;
+using ChatSggw.DataLayer.IdentityModels;
 using ChatSggw.Domain;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -19,13 +21,10 @@ namespace ChatSggw.API.Installers
         {
             container.Register(
                 Component
-                    .For<ApplicationDbContext>()
-                    .DependsOn(Dependency.OnValue<string>("DefaultConnection"))
-                    .LifestyleTransient(),
-                Component
-                    .For<IUserStore<ApplicationUser>>()
-                    .ImplementedBy<UserStore<ApplicationUser>>()
-                    .DependsOn(Dependency.OnComponent<DbContext, ApplicationDbContext>())
+                    .For<IUserStore<ApplicationUser, Guid>>()
+                    .ImplementedBy<UserStore<ApplicationUser, CustomRole, Guid,
+                        CustomUserLogin, CustomUserRole, CustomUserClaim>>()
+                    .DependsOn(Dependency.OnComponent<DbContext, CoreDbContext>())
                     .LifestyleTransient(),
                 Component
                     .For<IAuthenticationManager>()

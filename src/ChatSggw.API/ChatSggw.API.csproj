@@ -178,7 +178,6 @@
     <Compile Include="Infrastructure\DependencyResolver.cs" />
     <Compile Include="Infrastructure\DependencyScope.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MeViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

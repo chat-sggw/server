@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -33,10 +34,10 @@ namespace ChatSggw.API.Controllers
             if (!ModelState.IsValid)
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             var result =
-                await _userManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                await _userManager.ChangePasswordAsync(Guid.Parse(User.Identity.GetUserId()), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByIdAsync(User.Identity.GetUserId());
+                var user = await _userManager.FindByIdAsync(Guid.Parse(User.Identity.GetUserId()));
                 if (user != null)
                     await _signInManager.SignInAsync(user, false, false);
                 //return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
