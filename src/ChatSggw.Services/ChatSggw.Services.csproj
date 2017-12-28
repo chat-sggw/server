@@ -56,10 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\User\PingUserLocationCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Comands\" />
     <Folder Include="EventsHandlers\" />
     <Folder Include="Queries\" />
   </ItemGroup>

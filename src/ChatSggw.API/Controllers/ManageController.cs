@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using ChatSggw.Domain.Commands.User;
+using ChatSggw.Domain.Structs;
 using Microsoft.AspNet.Identity;
+using Neat.CQRSLite.Contract.Commands;
+using Neat.CQRSLite.Contract.Helpers;
 using Swashbuckle.Swagger.Annotations;
 
 namespace ChatSggw.API.Controllers
@@ -15,11 +20,13 @@ namespace ChatSggw.API.Controllers
     {
         private readonly ApplicationSignInManager _signInManager;
         private readonly ApplicationUserManager _userManager;
+        private readonly Assistant _please;
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, Assistant please)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _please = please;
         }
 
 
@@ -46,6 +53,29 @@ namespace ChatSggw.API.Controllers
             AddErrors(result);
             //return View(model);
             return Request.CreateResponse(HttpStatusCode.BadRequest);
+        }
+
+        [HttpPost]
+        [Route("ping")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
+        [SwaggerResponse(HttpStatusCode.OK,Type=typeof(string))]
+        public HttpResponseMessage Ping(double longitude , double latitude)
+        {
+            var pingUserLocation = new PingUserLocationCommand()
+            {
+                Location = new GeoInformation()
+                {
+                    Longitude = longitude,
+                    Latitude = latitude,
+                },
+                UserId = Guid.Parse(User.Identity.GetUserId())
+            };
+
+            var commandResult = _please.Do(pingUserLocation);
+
+            return commandResult.WasSuccessful()
+                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
 
         private void AddErrors(IdentityResult result)
