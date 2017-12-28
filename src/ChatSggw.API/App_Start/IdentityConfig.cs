@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ChatSggw.API.Models;
+using ChatSggw.DataLayer.IdentityModels;
 using Microsoft.Owin.Security.DataProtection;
 
 namespace ChatSggw.API
@@ -28,13 +29,13 @@ namespace ChatSggw.API
     }
 
     // Configure the application user manager which is used in this application.
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public class ApplicationUserManager : UserManager<ApplicationUser,Guid>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store)
+        public ApplicationUserManager(IUserStore<ApplicationUser,Guid> store)
             : base(store)
         {
             // Configure validation logic for usernames
-            this.UserValidator = new UserValidator<ApplicationUser>(this)
+            this.UserValidator = new UserValidator<ApplicationUser,Guid>(this)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -57,11 +58,11 @@ namespace ChatSggw.API
 
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
-            this.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
+            this.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser,Guid>
             {
                 MessageFormat = "Your security code is {0}"
             });
-            this.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
+            this.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser,Guid>
             {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
@@ -75,13 +76,13 @@ namespace ChatSggw.API
             {
                 IDataProtector dataProtector = dataProtectionProvider.Create("ASP.NET Identity");
 
-                this.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtector);
+                this.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser,Guid>(dataProtector);
             }
         }
     }
 
     // Configure the application sign-in manager which is used in this application.  
-    public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
+    public class ApplicationSignInManager : SignInManager<ApplicationUser, Guid>
     {
         public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager) :
             base(userManager, authenticationManager)

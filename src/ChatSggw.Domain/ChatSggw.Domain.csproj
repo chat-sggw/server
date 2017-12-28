@@ -30,12 +30,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Neat.CQRSLite.Contract, Version=0.1.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Neat.CQRSLite.Contract.0.1.8-alpha\lib\net452\Neat.CQRSLite.Contract.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,17 +55,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbGeographyHelper.cs" />
     <Compile Include="DomainEvents.cs" />
     <Compile Include="DTO\ConversationModel.cs" />
     <Compile Include="DTO\DirectConversationModel.cs" />
     <Compile Include="DTO\GroupConversationModel.cs" />
     <Compile Include="DTO\MessageModel.cs" />
     <Compile Include="DTO\UserModel.cs" />
-    <Compile Include="Entities\DirectConversation.cs" />
+    <Compile Include="Entities\Conversation\Conversation.cs" />
+    <Compile Include="Entities\Conversation\ConversationMember.cs" />
+    <Compile Include="Entities\User\UserDirectConversation.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Structs\GeoInformation.cs" />
-    <Compile Include="Entities\GroupConversation.cs" />
-    <Compile Include="Entities\Message.cs" />
-    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\Conversation\Message.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,10 +78,24 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

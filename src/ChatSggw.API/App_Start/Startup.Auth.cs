@@ -11,6 +11,7 @@ using Owin;
 using ChatSggw.API.Models;
 using ChatSggw.API.Providers;
 using ChatSggw.API.Infrastructure;
+using ChatSggw.DataLayer.IdentityModels;
 
 namespace ChatSggw.API
 {
@@ -34,7 +35,7 @@ namespace ChatSggw.API
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
         public static string PublicClientId { get; private set; }
-        
+
         internal static IDataProtectionProvider DataProtectionProvider { get; private set; }
 
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
@@ -43,8 +44,8 @@ namespace ChatSggw.API
             DataProtectionProvider = app.GetDataProtectionProvider();
 
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(() => WebApiConfig.Container.Resolve<ApplicationUserManager>());
-            
+            //app.CreatePerOwinContext(() => WebApiConfig.Container.Resolve<ApplicationUserManager>());
+
             // Enable the application to use a cookie to store information for the signed in user
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
@@ -54,9 +55,11 @@ namespace ChatSggw.API
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(20),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                    OnValidateIdentity = SecurityStampValidator
+                        .OnValidateIdentity<ApplicationUserManager, ApplicationUser, Guid>(
+                            validateInterval: TimeSpan.FromMinutes(20),
+                            regenerateIdentityCallback: (manager, user) => user.GenerateUserIdentityAsync(manager),
+                            getUserIdCallback: identity => Guid.Parse(identity.GetUserId()))
                 }
             });
             // Use a cookie to temporarily store information about a user logging in with a third party login provider
