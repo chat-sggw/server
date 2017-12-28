@@ -19,7 +19,7 @@ namespace ChatSggw.API.Installers
             container.Register(
                 Component.For<CoreDbContext>()
                     .DependsOn(Dependency.OnValue<CoreDbContext.Settings>(dbSettings))
-                    .LifestyleScoped(),
+                    .LifestyleTransient(),
                 Classes.FromAssemblyInThisApplication()
                     .BasedOn(typeof(IRepository<,>))
                     .WithService.Base()

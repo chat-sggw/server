@@ -4,6 +4,7 @@ using System.Linq;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using ChatSggw.Services.Commands.User;
 using Neat.CQRSLite.Contract.Commands;
 using Neat.CQRSLite.Contract.Events;
 using Neat.CQRSLite.Contract.Helpers;
@@ -16,6 +17,11 @@ namespace ChatSggw.API.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            var a = typeof(PingUserLocationCommandHandler);
+            var fromAssemblyInThisApplication = Classes.FromAssemblyInThisApplication();
+            var basedOn = fromAssemblyInThisApplication.BasedOn(typeof(ICommandHandler<>));
+
+
             container.Register(
                 Classes
                     .FromAssemblyInThisApplication()
@@ -35,7 +41,7 @@ namespace ChatSggw.API.Installers
                 Classes
                     .FromAssemblyInThisApplication()
                     .BasedOn(typeof(IQueryPerformer<,>))
-                    .WithServiceBase()
+                    .WithService.Base()
                     .LifestyleTransient(),
                 //buses register 
                 Component.For<ICommandBus>().ImplementedBy<CommandBus>().LifestyleSingleton(),
