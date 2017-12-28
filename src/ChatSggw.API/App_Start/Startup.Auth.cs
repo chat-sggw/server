@@ -44,7 +44,7 @@ namespace ChatSggw.API
             DataProtectionProvider = app.GetDataProtectionProvider();
 
             // Configure the db context, user manager and signin manager to use a single instance per request
-            //app.CreatePerOwinContext(() => WebApiConfig.Container.Resolve<ApplicationUserManager>());
+            app.CreatePerOwinContext(() => WebApiConfig.Container.Resolve<ApplicationUserManager>());
 
             // Enable the application to use a cookie to store information for the signed in user
             app.UseCookieAuthentication(new CookieAuthenticationOptions
