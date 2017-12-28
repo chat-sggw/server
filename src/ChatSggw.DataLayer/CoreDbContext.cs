@@ -40,7 +40,7 @@ namespace ChatSggw.DataLayer
                 .WillCascadeOnDelete();
 
             modelBuilder.Entity<UserDirectConversation>()
-                .HasKey(uf => uf.Id);
+                .HasKey(udc => new {udc.UserId, udc.InterlocutorId});
 
             base.OnModelCreating(modelBuilder);
         }
