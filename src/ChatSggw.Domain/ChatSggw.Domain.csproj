@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\User\PingUserLocationCommand.cs" />
     <Compile Include="DbGeographyHelper.cs" />
     <Compile Include="DomainEvents.cs" />
     <Compile Include="DTO\ConversationModel.cs" />
@@ -72,7 +73,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Comands\" />
     <Folder Include="Events\" />
     <Folder Include="Queries\" />
     <Folder Include="Repositories\" />
