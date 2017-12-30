@@ -55,29 +55,6 @@ namespace ChatSggw.API.Controllers
             return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 
-        [HttpPost]
-        [Route("ping")]
-        [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
-        [SwaggerResponse(HttpStatusCode.OK,Type=typeof(string))]
-        public HttpResponseMessage Ping(double longitude , double latitude)
-        {
-            var pingUserLocation = new PingUserLocationCommand()
-            {
-                Location = new GeoInformation()
-                {
-                    Longitude = longitude,
-                    Latitude = latitude,
-                },
-                UserId = Guid.Parse(User.Identity.GetUserId())
-            };
-
-            var commandResult = _please.Do(pingUserLocation);
-
-            return commandResult.WasSuccessful()
-                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
-                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
-        }
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
