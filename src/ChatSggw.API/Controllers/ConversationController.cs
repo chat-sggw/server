@@ -8,6 +8,7 @@ using System.Web.Http;
 using ChatSggw.Domain.Commands.Conversation;
 using ChatSggw.Domain.Commands.Message;
 using ChatSggw.Domain.Entities.Conversation;
+using ChatSggw.Domain.Queries.Conversation;
 using ChatSggw.Domain.Structs;
 using Neat.CQRSLite.Contract.Commands;
 using Neat.CQRSLite.Contract.Helpers;
@@ -82,6 +83,22 @@ namespace ChatSggw.API.Controllers
             return commandResult.WasSuccessful()
                 ? Request.CreateResponse(HttpStatusCode.OK, "ok")
                 : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
+        }
+
+        [HttpPost]
+        [Route("retrieveMessages")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
+        public HttpResponseMessage RetrieveMessages([FromBody] Guid conversationId, [FromBody] string query)
+        {
+            var retrieveMessages = new SearchForMessagesInConversationQuery()
+            {
+                ConversationId = conversationId,
+                QueryString = query
+            };
+
+            //todo [KR]: jak zrealizowac query w tym?
+            return null;
         }
     }
 }
