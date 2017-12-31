@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Http;
 using ChatSggw.Domain.Commands.Conversation;
 using ChatSggw.Domain.Commands.Message;
+using ChatSggw.Domain.Entities.Conversation;
 using ChatSggw.Domain.Structs;
 using Neat.CQRSLite.Contract.Commands;
 using Neat.CQRSLite.Contract.Helpers;
@@ -23,6 +24,26 @@ namespace ChatSggw.API.Controllers
         public ConversationController(Assistant please)
         {
             _please = please;
+        }
+
+        [HttpPost]
+        [Route("create")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
+        public HttpResponseMessage Create([FromBody] params Guid[] members)
+        {
+            var create = new CreateGroupConversationCommand()
+            {
+                Conversation = new Conversation()
+            };
+
+            //todo [KR]: dodac inicjalizacje memberow z listy guidow z body
+
+            var commandResult = _please.Do(create);
+
+            return commandResult.WasSuccessful()
+                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
 
         [HttpPost]
