@@ -1,10 +1,9 @@
-﻿using ChatSggw.Domain.Entities.Conversation;
-using Neat.CQRSLite.Contract.Commands;
+﻿using Neat.CQRSLite.Contract.Commands;
 
-namespace ChatSggw.Domain.Commands.User
+namespace ChatSggw.Domain.Commands.Conversation
 {
     public class CreateGroupConversationCommand : ICommand
     {
-        public Conversation NewConversation { get; set; }
+        public Entities.Conversation.Conversation Conversation { get; set; }
     }
 }

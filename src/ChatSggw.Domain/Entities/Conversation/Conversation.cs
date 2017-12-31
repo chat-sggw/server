@@ -6,7 +6,6 @@ using Neat.CQRSLite.Contract.Domain;
 
 namespace ChatSggw.Domain.Entities.Conversation
 {
-    //We may consider some basic property to handle events like joing or leaving chat
     public class Conversation
     {
         public Conversation()

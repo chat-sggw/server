@@ -1,12 +1,9 @@
-﻿using System;
-using System.Security.Policy;
-using ChatSggw.Domain.Entities.Conversation;
-using Neat.CQRSLite.Contract.Commands;
+﻿using Neat.CQRSLite.Contract.Commands;
 
-namespace ChatSggw.Domain.Commands.User
+namespace ChatSggw.Domain.Commands.Message
 {
     public class SendMessageCommand : ICommand
     {
-        public Message Message { get; set; }
+        public Entities.Conversation.Message Message { get; set; }
     }
 }

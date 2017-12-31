@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Neat.CQRSLite.Contract.Queries;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ChatSggw.Domain.DTO.Message;
 
 namespace ChatSggw.Domain.Queries.Conversation
 {
-    class SearchForMessagesInConversationQuery
+    public class SearchForMessagesInConversationQuery : IQuery<IEnumerable<MessageDTO>>
     {
+        public string QueryString { get; set; }
+        public Guid ConversationId { get; set; }
     }
 }

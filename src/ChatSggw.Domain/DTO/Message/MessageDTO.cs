@@ -1,6 +1,5 @@
-﻿using System;
-using System.Data.Entity.Spatial;
-using ChatSggw.Domain.Structs;
+﻿using ChatSggw.Domain.Structs;
+using System;
 
 namespace ChatSggw.Domain.DTO.Message
 {
