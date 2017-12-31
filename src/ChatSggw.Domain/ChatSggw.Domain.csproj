@@ -55,16 +55,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Conversation\AddMemberToConversationComand.cs" />
+    <Compile Include="Commands\Conversation\RemoveMemberFromConversationCommand.cs" />
     <Compile Include="Commands\User\AddFriendCommand.cs" />
+    <Compile Include="Commands\Conversation\CreateGroupConversationCommand.cs" />
     <Compile Include="Commands\User\PingUserLocationCommand.cs" />
+    <Compile Include="Commands\Message\SendMessageCommand.cs" />
     <Compile Include="DbGeographyHelper.cs" />
     <Compile Include="DomainEvents.cs" />
+    <Compile Include="DTO\Message\MessageDTO.cs" />
     <Compile Include="DTO\User\FriendInfoDTO.cs" />
     <Compile Include="DTO\User\UserInfoDTO.cs" />
     <Compile Include="Entities\Conversation\Conversation.cs" />
     <Compile Include="Entities\Conversation\ConversationMember.cs" />
     <Compile Include="Entities\User\UserDirectConversation.cs" />
-    <Compile Include="Queries\User\GetMyFriendsInfo.cs" />
+    <Compile Include="Queries\Conversation\SearchForMessagesInConversationQuery.cs" />
+    <Compile Include="Queries\User\GetMyFriendsInfoQuery.cs" />
     <Compile Include="Queries\User\SearchUserQuery.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Structs\GeoInformation.cs" />
@@ -73,7 +79,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DTO\Conversation\" />
     <Folder Include="Events\" />
+    <Folder Include="Queries\Message\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
