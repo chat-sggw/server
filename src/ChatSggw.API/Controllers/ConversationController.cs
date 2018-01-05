@@ -64,7 +64,7 @@ namespace ChatSggw.API.Controllers
         [Route("{conversationId:guid}/add-member")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
-        public HttpResponseMessage AddMember([FromBody]Guid memberId, Guid conversationId)
+        public HttpResponseMessage AddMember([FromBody] Guid memberId, Guid conversationId)
         {
             var addMember = new AddMemberToConversationCommand
             {
@@ -90,7 +90,7 @@ namespace ChatSggw.API.Controllers
         [Route("{conversationId:guid}/remove-member")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
-        public HttpResponseMessage RemoveMember([FromBody]Guid memberId, Guid conversationId)
+        public HttpResponseMessage RemoveMember([FromBody] Guid memberId, Guid conversationId)
         {
             var addMember = new RemoveMemberFromConversationCommand()
             {
@@ -112,12 +112,65 @@ namespace ChatSggw.API.Controllers
         [Route("{conversationId:guid}/search")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
-        public IEnumerable<MessageDTO> RetrieveMessages(Guid conversationId, [FromUri] string query)
+        public IEnumerable<MessageDTO> Search(Guid conversationId, [FromUri] string query)
         {
             var retrieveMessages = new SearchForMessagesInConversationQuery()
             {
                 ConversationId = conversationId,
                 QueryString = query,
+                UserId = Guid.Parse(User.Identity.GetUserId())
+            };
+//            var messageDtos = _please.Give(retrieveMessages);
+            IEnumerable<MessageDTO> messageDtos = new List<MessageDTO>
+            {
+                new MessageDTO
+                {
+                    Id = Guid.Empty,
+                    Text = "Hejka",
+                    AuthorId = Guid.Empty,
+                    GeoStamp = new GeoInformation
+                    {
+                        Longitude = 10,
+                        Latitude = 10
+                    },
+                    SendDateTime = DateTime.Now.AddMinutes(-1)
+                },
+                new MessageDTO
+                {
+                    Id = Guid.Empty,
+                    Text = "No siema",
+                    AuthorId = Guid.Empty,
+                    GeoStamp = new GeoInformation
+                    {
+                        Longitude = 10,
+                        Latitude = 10
+                    },
+                    SendDateTime = DateTime.Now
+                }
+            };
+            return messageDtos;
+        }
+
+        /// <summary>
+        /// Metoda pobiera wiadomości z czatu o podanym id 
+        /// </summary>
+        /// <param name="conversationId">Id czatu</param>
+        /// <param name="afterMessage">Id najświeższej posiadanej wiadomości. Parametr opcjonalny, nie można go łączyć z <see cref="beforeMessage"/> </param>
+        /// <param name="beforeMessage">Id najstarszej posiadanej wiadomości. Parametr opcjonalny, nie można go łączyć z <see cref="afterMessage"/> </param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{conversationId:guid}")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
+        public IEnumerable<MessageDTO> GetMessages(Guid conversationId, [FromUri] Guid? afterMessage,
+            [FromUri] Guid? beforeMessage)
+        {
+            var retrieveMessages = new GetMessagesInConversationQuery()
+
+            {
+                ConversationId = conversationId,
+                AfterMessageId = afterMessage,
+                BeforeMessageId = beforeMessage,
                 UserId = Guid.Parse(User.Identity.GetUserId())
             };
 //            var messageDtos = _please.Give(retrieveMessages);

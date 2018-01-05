@@ -49,7 +49,7 @@ namespace ChatSggw.API.Controllers
         }
 
         [HttpPost]
-        [Route("add-friend/{id:guid}")]
+        [Route("friends/{id:guid}")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
         public HttpResponseMessage AddFriend(Guid id)
@@ -59,6 +59,21 @@ namespace ChatSggw.API.Controllers
                 FriendId = id,
                 UserId = Guid.Parse(User.Identity.GetUserId())
             };
+
+            return Request.CreateResponse(HttpStatusCode.OK, "ok");
+        }
+
+        [HttpDelete]
+        [Route("friends/{id:guid}")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
+        public HttpResponseMessage RemmoveFriend(Guid id)
+        {
+//            var command = new AddFriendCommand()
+//            {
+//                FriendId = id,
+//                UserId = Guid.Parse(User.Identity.GetUserId())
+//            };
 
             return Request.CreateResponse(HttpStatusCode.OK, "ok");
         }
