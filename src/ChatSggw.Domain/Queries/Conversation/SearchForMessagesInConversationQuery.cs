@@ -9,5 +9,6 @@ namespace ChatSggw.Domain.Queries.Conversation
     {
         public string QueryString { get; set; }
         public Guid ConversationId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

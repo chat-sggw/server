@@ -7,9 +7,10 @@ using Neat.CQRSLite.Contract.Commands;
 
 namespace ChatSggw.Domain.Commands.Conversation
 {
-    public class AddMemberToConversationComand : ICommand
+    public class AddMemberToConversationCommand : ICommand
     {
         public Guid ConversationId { get; set; }
         public Guid MemberId { get; set; }
+        public Guid UserId { get; set; }
     }
 }
