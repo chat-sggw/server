@@ -5,7 +5,7 @@ namespace ChatSggw.Domain.Commands.User
 {
     public class AddFriendCommand : ICommand
     {
-        public Guid UserId { get; set; }
-        public Guid FriendId { get; set; }
+        public Guid FirstUserId { get; set; }
+        public Guid SecondUserId { get; set; }
     }
 }

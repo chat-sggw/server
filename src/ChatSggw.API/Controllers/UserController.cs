@@ -56,22 +56,26 @@ namespace ChatSggw.API.Controllers
         {
             var command = new AddFriendCommand
             {
-                FriendId = id,
-                UserId = Guid.Parse(User.Identity.GetUserId())
+                SecondUserId = id,
+                FirstUserId = Guid.Parse(User.Identity.GetUserId())
             };
 
-            return Request.CreateResponse(HttpStatusCode.OK, "ok");
+            var commandResult = _please.Do(command);
+
+            return commandResult.WasSuccessful()
+                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
 
         [HttpDelete]
         [Route("friends/{id:guid}")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
-        public HttpResponseMessage RemmoveFriend(Guid id)
+        public HttpResponseMessage RemoveFriend(Guid id)
         {
 //            var command = new AddFriendCommand()
 //            {
-//                FriendId = id,
+//                SecondUserId = id,
 //                UserId = Guid.Parse(User.Identity.GetUserId())
 //            };
 
@@ -101,6 +105,7 @@ namespace ChatSggw.API.Controllers
             return users;
         }
 
+        //todo: do zrobienia tak, zeby pracowalo z FriendsPairDTO
         [HttpGet]
         [Route("friends")]
         public IEnumerable<FriendInfoDTO> GetFriendsInfo()

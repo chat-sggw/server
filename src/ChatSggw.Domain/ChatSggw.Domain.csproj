@@ -63,11 +63,13 @@
     <Compile Include="Commands\Message\SendMessageCommand.cs" />
     <Compile Include="DbGeographyHelper.cs" />
     <Compile Include="DomainEvents.cs" />
+    <Compile Include="DTO\FriendsPair\FriendsPairDTO.cs" />
     <Compile Include="DTO\Message\MessageDTO.cs" />
     <Compile Include="DTO\User\FriendInfoDTO.cs" />
     <Compile Include="DTO\User\UserInfoDTO.cs" />
     <Compile Include="Entities\Conversation\Conversation.cs" />
     <Compile Include="Entities\Conversation\ConversationMember.cs" />
+    <Compile Include="Entities\FriendsPair\FriendsPair.cs" />
     <Compile Include="Entities\User\UserDirectConversation.cs" />
     <Compile Include="Queries\Conversation\GetMessagesInConversationQuery.cs" />
     <Compile Include="Queries\Conversation\SearchForMessagesInConversationQuery.cs" />
@@ -90,7 +92,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Readme.txt" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
