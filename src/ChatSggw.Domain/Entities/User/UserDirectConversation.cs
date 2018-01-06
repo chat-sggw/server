@@ -8,6 +8,5 @@ namespace ChatSggw.Domain.Entities.User
         public Guid InterlocutorId { get; set; }
         public Guid ConversationId { get; set; }
         public bool IsFriend { get; set; }
-
     }
 }

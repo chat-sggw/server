@@ -163,6 +163,7 @@
     <Compile Include="Controllers\ConversationController.cs" />
     <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Helpers\CommandResultHelper.cs" />
     <Compile Include="Swagger\filters\AuthTokenOperation.cs" />
     <Compile Include="App_Start\Installers\AuthInstaller.cs" />
     <Compile Include="App_Start\Installers\DataLayerInstaller.cs" />

@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="Commands\Conversation\AddMemberToConversationCommand.cs" />
     <Compile Include="Commands\Conversation\RemoveMemberFromConversationCommand.cs" />
-    <Compile Include="Commands\User\AddFriendCommand.cs" />
+    <Compile Include="Commands\FriendsPair\AddRemoveFriendCommand.cs" />
     <Compile Include="Commands\Conversation\CreateGroupConversationCommand.cs" />
     <Compile Include="Commands\User\PingUserLocationCommand.cs" />
     <Compile Include="Commands\Message\SendMessageCommand.cs" />
@@ -84,6 +84,7 @@
   <ItemGroup>
     <Folder Include="DTO\Conversation\" />
     <Folder Include="Events\" />
+    <Folder Include="Queries\FriendsPair\" />
     <Folder Include="Queries\Message\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
