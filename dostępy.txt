@@ -1,0 +1,13 @@
+DataBase:
+Data Source=SQL6003.site4now.net
+Initial Catalog=DB_A31C91_chatsggw
+User Id=DB_A31C91_chatsggw_admin
+Password=chujdupacycki123.
+
+connectionString (prod): "Data Source=SQL6003.site4now.net;Initial Catalog=DB_A31C91_chatsggw;User Id=DB_A31C91_chatsggw_admin;Password=chujdupacycki123.;"
+
+Jak Publish poprosi o dostêpy, to has³o jest tutaj:
+FTP Password=chujdupacycki123.
+
+aplikacja:
+http://chatsggw-001-site1.ctempurl.com
