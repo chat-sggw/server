@@ -12,7 +12,7 @@ namespace ChatSggw.Domain.Entities.Conversation
             return new ConversationMember
             {
                 ConversationId = conversationId,
-                UserId = userId,
+                UserId = userId
             };
         }
     }

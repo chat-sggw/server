@@ -56,6 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Conversation\AddMemberToConversationCommandHandler.cs" />
+    <Compile Include="Commands\Conversation\CreateGroupConversationCommandHandler.cs" />
+    <Compile Include="Commands\Conversation\RemoveMemberFromConversationCommandHandler.cs" />
     <Compile Include="Commands\FriendsPair\AddFriendCommandHandler.cs" />
     <Compile Include="Commands\User\PingUserLocationCommandHandler.cs" />
     <Compile Include="Commands\FriendsPair\RemoveFriendCommandHandler.cs" />
