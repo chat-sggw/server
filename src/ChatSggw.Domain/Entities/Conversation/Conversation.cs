@@ -63,16 +63,17 @@ namespace ChatSggw.Domain.Entities.Conversation
             };
             conversation.Members.Add(ConversationMember.Create(conversation.Id, firstMember));
             conversation.Members.Add(ConversationMember.Create(conversation.Id, secondMember));
+            
             return conversation;
         }
 
-        public static Conversation CreateDirectGroupConversation(IEnumerable<Guid> members)
+        public static Conversation CreateGroupConversation(IEnumerable<Guid> members)
         {
             var conversation = new Conversation
             {
                 Id = new Guid(),
                 StartDateTime = DateTime.Now,
-                IsGroupConversation = false,
+                IsGroupConversation = true
             };
             conversation.Members = members
                 .Select(m => ConversationMember.Create(conversation.Id, m))

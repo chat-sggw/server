@@ -92,14 +92,14 @@ namespace ChatSggw.API.Controllers
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
         public HttpResponseMessage RemoveMember([FromBody] Guid memberId, Guid conversationId)
         {
-            var addMember = new RemoveMemberFromConversationCommand()
+            var removeMember = new RemoveMemberFromConversationCommand()
             {
                 MemberId = memberId,
                 ConversationId = conversationId,
                 UserId = Guid.Parse(User.Identity.GetUserId())
             };
 
-//            var commandResult = _please.Do(addMember);
+//            var commandResult = _please.Do(removeMember);
 //
 //            return commandResult.WasSuccessful()
 //                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
