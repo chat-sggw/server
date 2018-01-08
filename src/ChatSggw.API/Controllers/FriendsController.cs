@@ -27,10 +27,10 @@ namespace ChatSggw.API.Controllers
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
         public HttpResponseMessage AddFriend(Guid id)
         {
-            var command = new AddRemoveFriendCommand
+            var command = new AddFriendCommand
             {
-                FirstUserId = Guid.Parse(User.Identity.GetUserId()),
-                SecondUserId = id
+                UserId = Guid.Parse(User.Identity.GetUserId()),
+                FriendId = id
             };
 
             return command.ProceesForResult(_please, Request);
@@ -42,10 +42,10 @@ namespace ChatSggw.API.Controllers
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
         public HttpResponseMessage RemoveFriend(Guid id)
         {
-            var command = new AddRemoveFriendCommand
+            var command = new RemoveFriendCommand
             {
-                FirstUserId = Guid.Parse(User.Identity.GetUserId()),
-                SecondUserId = id
+                UserId = Guid.Parse(User.Identity.GetUserId()),
+                FriendId = id
             };
 
             return command.ProceesForResult(_please, Request);

@@ -85,7 +85,7 @@ namespace ChatSggw.API.Controllers
             {
                 new FriendInfoDTO
                 {
-                    Id = Guid.Empty,
+                    FriendId =  Guid.Empty,
                     IsActive = true,
                     UserName = "Mietek",
                     ConversationId = Guid.Empty,
