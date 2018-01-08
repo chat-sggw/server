@@ -6,7 +6,7 @@ using ChatSggw.Domain;
 using ChatSggw.Domain.Commands.Message;
 using Neat.CQRSLite.Contract.Commands;
 
-namespace ChatSggw.Services.Commands.Conversation
+namespace ChatSggw.Services.Commands.Message
 {
     public class SendMessageCommandHandler : ICommandHandler<SendMessageCommand>
     {

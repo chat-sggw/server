@@ -56,8 +56,9 @@
   <ItemGroup>
     <Compile Include="Commands\Conversation\AddMemberToConversationCommand.cs" />
     <Compile Include="Commands\Conversation\RemoveMemberFromConversationCommand.cs" />
-    <Compile Include="Commands\FriendsPair\AddRemoveFriendCommand.cs" />
+    <Compile Include="Commands\FriendsPair\AddFriendCommand.cs" />
     <Compile Include="Commands\Conversation\CreateGroupConversationCommand.cs" />
+    <Compile Include="Commands\FriendsPair\RemoveFriendCommand.cs" />
     <Compile Include="Commands\User\PingUserLocationCommand.cs" />
     <Compile Include="Commands\Message\SendMessageCommand.cs" />
     <Compile Include="DbGeographyHelper.cs" />
