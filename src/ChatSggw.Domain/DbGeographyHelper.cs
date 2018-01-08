@@ -18,5 +18,20 @@ namespace ChatSggw.Domain
         {
             return ConvertLatLonToDbGeography(geoLocation.Longitude, geoLocation.Latitude);
         }
+
+        public static GeoInformation? ConvertDbGeographyLatLon(this DbGeography dbGeography)
+        {
+            var longitude = dbGeography.Longitude;
+            var latitude = dbGeography.Latitude;
+            if (longitude.HasValue && latitude.HasValue)
+            {
+                return new GeoInformation
+                {
+                    Latitude = latitude.Value,
+                    Longitude = longitude.Value,
+                };
+            }
+            return null;
+        }
     }
 }

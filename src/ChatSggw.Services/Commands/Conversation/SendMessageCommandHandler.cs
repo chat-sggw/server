@@ -2,39 +2,39 @@
 using System.Data.Entity;
 using System.Linq;
 using ChatSggw.DataLayer;
-using ChatSggw.Domain.Commands.Conversation;
+using ChatSggw.Domain;
+using ChatSggw.Domain.Commands.Message;
 using Neat.CQRSLite.Contract.Commands;
 
 namespace ChatSggw.Services.Commands.Conversation
 {
-    public class AddMemberToConversationCommandHandler : ICommandHandler<AddMemberToConversationCommand>
+    public class SendMessageCommandHandler : ICommandHandler<SendMessageCommand>
     {
         private readonly CoreDbContext _db;
 
-        public AddMemberToConversationCommandHandler(CoreDbContext db)
+        public SendMessageCommandHandler(CoreDbContext db)
         {
             _db = db;
         }
 
-        public void Execute(AddMemberToConversationCommand command)
-        {
-            var member = _db.Users.Find(command.MemberId);
+        public void Execute(SendMessageCommand command)
+        {            
+
+            var user = _db.Users.Find(command.UserId);
             var conversation = _db.Conversations.Include(x => x.Members)
                 .SingleOrDefault(x => x.Id == command.ConversationId);
 
-         
             if (conversation == null)
             {
                 throw new Exception("The conversation doesn't exist!");
             }
 
-            if (conversation.Members.All(m => m.UserId != command.UserId))
+            if (conversation.Members.All(m => m.UserId != user.Id))
             {
                 throw new Exception("Brak uprawnień");
             }
 
-            conversation.AddMember(member.Id);
-
+            conversation.AddMessage(command.Text, user.Id, user.CurrentPosition.ConvertDbGeographyLatLon());
             _db.SaveChanges();
         }
     }

@@ -1,19 +1,11 @@
-﻿﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity;
-using System.Data.Entity.Spatial;
 using System.Linq;
 using ChatSggw.DataLayer;
-using ChatSggw.DataLayer.IdentityModels;
-using ChatSggw.Domain;
 using ChatSggw.Domain.Commands.Conversation;
-using ChatSggw.Domain.Commands.User;
-using ChatSggw.Domain.Entities.Conversation;
-using ChatSggw.Domain.Entities.User;
 using Neat.CQRSLite.Contract.Commands;
 
-namespace ChatSggw.Services.Commands.User
+namespace ChatSggw.Services.Commands.Conversation
 {
     public class RemoveMemberFromConversationCommandHandler : ICommandHandler<RemoveMemberFromConversationCommand>
     {
@@ -28,6 +20,16 @@ namespace ChatSggw.Services.Commands.User
         {            
             var conversation = _db.Conversations.Include(x => x.Members)
                 .SingleOrDefault(x => x.Id == command.ConversationId);
+
+            if (conversation == null)
+            {
+                throw new Exception("The conversation doesn't exist!");
+            }
+
+            if (conversation.Members.All(m => m.UserId != command.UserId))
+            {
+                throw new Exception("Brak uprawnień");
+            }
 
             conversation.RemoveMember(command.MemberId);            
             _db.SaveChanges();

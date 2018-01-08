@@ -214,7 +214,7 @@ namespace ChatSggw.API.Controllers
             var sendMessage = new SendMessageCommand
             {
                 ConversationId = conversationId,
-                MemberId = Guid.Parse(User.Identity.GetUserId()),
+                UserId = Guid.Parse(User.Identity.GetUserId()),
                 MessageId = messageId,
                 Text = text
             };
