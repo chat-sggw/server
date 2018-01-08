@@ -19,6 +19,9 @@ namespace ChatSggw.DataLayer
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<FriendsPair> FriendsPairs { get; set; }
 
+        public DbSet<Message> ConversationMessages { get; set; }
+        public DbSet<ConversationMember> ConversationMembers { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Conversation mapping
