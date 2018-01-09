@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using ChatSggw.Domain.Entities.User;
 using ChatSggw.Domain.Structs;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -15,7 +14,6 @@ namespace ChatSggw.DataLayer.IdentityModels
         public ApplicationUser()
         {
             Id = Guid.NewGuid();
-            DirectConversations = new List<UserDirectConversation>();
         }
 
 
@@ -31,9 +29,6 @@ namespace ChatSggw.DataLayer.IdentityModels
                 Latitude = CurrentPositionLatitude.Value
             }
             : (GeoInformation?) null;
-
-        public ICollection<UserDirectConversation> DirectConversations { get; }
-
 
         public void PingUser(GeoInformation? geoStampGeoInformation = null)
         {

@@ -26,8 +26,9 @@ namespace ChatSggw.Services.Commands.FriendsPair
                 //skip they are no longer friends 
                 return;
             }
-
+            var conversation = _db.Conversations.Find(friendsPair.ConversationId);
             _db.FriendsPairs.Remove(friendsPair);
+            _db.Conversations.Remove(conversation);
             _db.SaveChanges();
         }
     }

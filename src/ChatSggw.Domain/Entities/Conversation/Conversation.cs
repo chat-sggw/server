@@ -57,7 +57,7 @@ namespace ChatSggw.Domain.Entities.Conversation
         {
             var conversation = new Conversation
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 StartDateTime = DateTime.Now,
                 IsGroupConversation = false
             };

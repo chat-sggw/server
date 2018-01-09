@@ -66,7 +66,6 @@
     <Compile Include="Entities\Conversation\Conversation.cs" />
     <Compile Include="Entities\Conversation\ConversationMember.cs" />
     <Compile Include="Entities\FriendsPair\FriendsPair.cs" />
-    <Compile Include="Entities\User\UserDirectConversation.cs" />
     <Compile Include="Queries\Conversation\GetMessagesInConversationQuery.cs" />
     <Compile Include="Queries\Conversation\SearchForMessagesInConversationQuery.cs" />
     <Compile Include="Queries\User\GetMyFriendsInfoQuery.cs" />

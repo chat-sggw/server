@@ -29,22 +29,20 @@ namespace ChatSggw.Services.Queries.Conversation
             }
 
             if (query.AfterMessageId == null && query.BeforeMessageId == null)
-            {
                 return _db.ConversationMessages
                     .Where(m => m.ConversationId == query.ConversationId)
                     .OrderByDescending(m => m.SendDateTime)
                     .Take(10)
-                    .Select(m => new MessageDTO()
+                    .ToList()
+                    .Select(m => new MessageDTO
                     {
                         Text = m.Text,
                         SendDateTime = m.SendDateTime,
                         AuthorId = m.AuthorId,
                         Id = m.Id,
-                        GeoStamp = m.GeoStamp,
+                        GeoStamp = m.GeoStamp
                     })
-                    .AsEnumerable()
                     .Reverse();
-            }
 
             if (query.AfterMessageId != null && query.BeforeMessageId == null)
             {
@@ -58,6 +56,7 @@ namespace ChatSggw.Services.Queries.Conversation
                     .Where(m => m.SendDateTime > message.SendDateTime)
                     .OrderBy(m => m.SendDateTime)
                     .Take(10)
+                    .ToArray()
                     .Select(m => new MessageDTO()
                     {
                         Text = m.Text,
@@ -66,7 +65,7 @@ namespace ChatSggw.Services.Queries.Conversation
                         Id = m.Id,
                         GeoStamp = m.GeoStamp,
                     })
-                    .AsEnumerable();
+                    .ToList();
             }
 
             if (query.AfterMessageId == null && query.BeforeMessageId != null)
@@ -81,6 +80,7 @@ namespace ChatSggw.Services.Queries.Conversation
                     .Where(m => m.SendDateTime < message.SendDateTime)
                     .OrderByDescending(m => m.SendDateTime)
                     .Take(10)
+                    .ToList()
                     .Select(m => new MessageDTO()
                     {
                         Text = m.Text,
@@ -89,7 +89,6 @@ namespace ChatSggw.Services.Queries.Conversation
                         Id = m.Id,
                         GeoStamp = m.GeoStamp,
                     })
-                    .AsEnumerable()
                     .Reverse();
             }
 

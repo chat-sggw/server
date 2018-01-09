@@ -35,6 +35,7 @@ namespace ChatSggw.Services.Queries.Conversation
             var messages = _db.ConversationMessages
                 .Where(m => m.ConversationId == query.ConversationId)
                 .OrderByDescending(m => m.SendDateTime)
+                .ToList()
                 .Select(m => new MessageDTO()
                 {
                     Text = m.Text,
@@ -43,12 +44,9 @@ namespace ChatSggw.Services.Queries.Conversation
                     Id = m.Id,
                     GeoStamp = m.GeoStamp,
                 })
-                .Take(101) // limit to 20 max messages
                 .ToList();
 
-            return messages.Count == 101
-                ? new List<MessageDTO>()
-                : messages;
+            return messages;
         }
     }
 }

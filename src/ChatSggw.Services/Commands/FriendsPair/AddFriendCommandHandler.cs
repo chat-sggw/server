@@ -24,6 +24,12 @@ namespace ChatSggw.Services.Commands.FriendsPair
                 //skip users are already friends
                 return;
             }
+            
+            if (!_db.Users.Any(u => u.Id == command.FriendId))
+            {
+                throw new Exception("Używtkownik nie istnieje");
+            }
+
 
             var conversation =
                 Domain.Entities.Conversation.Conversation.CreateDirectConversation(command.UserId, command.FriendId);
