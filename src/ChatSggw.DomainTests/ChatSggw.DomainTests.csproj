@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="Neat.CQRSLite.Contract, Version=0.1.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Neat.CQRSLite.Contract.0.1.8-alpha\lib\net452\Neat.CQRSLite.Contract.dll</HintPath>
     </Reference>
@@ -72,6 +75,9 @@
       <Project>{0B3870F8-CB80-4EC7-88ED-055303EC3AEB}</Project>
       <Name>ChatSggw.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
