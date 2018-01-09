@@ -54,5 +54,22 @@ namespace ChatSggw.API.Controllers
                 ? Request.CreateResponse(HttpStatusCode.OK, "ok")
                 : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
+
+        [HttpPost]
+        [Route("friends/ban/{id:guid}")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
+        public HttpResponseMessage BanFriend(Guid id)
+        {
+            var commandResult = _please.Do(new BanFriendCommand
+            {
+                UserId = Guid.Parse(User.Identity.GetUserId()),
+                FriendId = id
+            });
+
+            return commandResult.WasSuccessful()
+                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
+        }
     }
 }

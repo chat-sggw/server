@@ -59,6 +59,7 @@
     <Compile Include="Commands\Conversation\AddMemberToConversationCommandHandler.cs" />
     <Compile Include="Commands\Conversation\CreateGroupConversationCommandHandler.cs" />
     <Compile Include="Commands\Conversation\RemoveMemberFromConversationCommandHandler.cs" />
+    <Compile Include="Commands\FriendsPair\BanFriendCommandHandler.cs" />
     <Compile Include="Commands\Message\SendMessageCommandHandler.cs" />
     <Compile Include="Commands\FriendsPair\AddFriendCommandHandler.cs" />
     <Compile Include="Commands\User\PingUserLocationCommandHandler.cs" />
