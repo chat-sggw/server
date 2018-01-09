@@ -9,8 +9,6 @@ namespace ChatSggw.API
     {
         protected void Application_Start()
         {
-            SqlProviderServices.SqlServerTypesAssemblyName =
-                "Microsoft.SqlServer.Types, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }

@@ -40,18 +40,15 @@ namespace ChatSggw.API.Controllers
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(Guid))]
         public HttpResponseMessage Create([FromBody] Guid[] members)
         {
-            var create = new CreateGroupConversationCommand()
+            var commandResult = _please.Do(new CreateGroupConversationCommand
             {
                 Members = members,
                 UserId = Guid.Parse(User.Identity.GetUserId())
-            };
+            });
 
-            //            var commandResult = _please.Do(create);
-            //
-            //            return commandResult.WasSuccessful()
-            //                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
-            //                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
-            return Request.CreateResponse(HttpStatusCode.OK, Guid.Empty);
+            return commandResult.WasSuccessful()
+                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
 
         /// <summary>
@@ -64,7 +61,7 @@ namespace ChatSggw.API.Controllers
         [Route("{conversationId:guid}/add-member")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
-        public HttpResponseMessage AddMember([FromBody] Guid memberId, Guid conversationId)
+        public HttpResponseMessage AddMember(Guid memberId, Guid conversationId)
         {
             var addMember = new AddMemberToConversationCommand
             {
@@ -81,7 +78,7 @@ namespace ChatSggw.API.Controllers
         }
 
         /// <summary>
-        /// Metoda usuwa członka konwersacjo
+        /// Metoda usuwa członka konwersacji
         /// </summary>
         /// <param name="memberId">Identyfikator członka konwersacji</param>
         /// <param name="conversationId">Identyfikator konwersacji</param>
@@ -90,22 +87,19 @@ namespace ChatSggw.API.Controllers
         [Route("{conversationId:guid}/remove-member")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
-        public HttpResponseMessage RemoveMember([FromBody] Guid memberId, Guid conversationId)
+        public HttpResponseMessage RemoveMember(Guid memberId, Guid conversationId)
         {
-            var removeMember = new RemoveMemberFromConversationCommand()
+
+            var commandResult = _please.Do(new RemoveMemberFromConversationCommand()
             {
                 MemberId = memberId,
                 ConversationId = conversationId,
                 UserId = Guid.Parse(User.Identity.GetUserId())
-            };
+            });
 
-//            var commandResult = _please.Do(removeMember);
-//
-//            return commandResult.WasSuccessful()
-//                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
-//                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
-
-            return Request.CreateResponse(HttpStatusCode.OK, "ok");
+            return commandResult.WasSuccessful()
+                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
 
         [HttpGet]
@@ -114,94 +108,54 @@ namespace ChatSggw.API.Controllers
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
         public IEnumerable<MessageDTO> Search(Guid conversationId, [FromUri] string query)
         {
-            var retrieveMessages = new SearchForMessagesInConversationQuery()
+            return _please.Give(new SearchForMessagesInConversationQuery()
             {
                 ConversationId = conversationId,
                 QueryString = query,
                 UserId = Guid.Parse(User.Identity.GetUserId())
-            };
-//            var messageDtos = _please.Give(retrieveMessages);
-            IEnumerable<MessageDTO> messageDtos = new List<MessageDTO>
-            {
-                new MessageDTO
-                {
-                    Id = Guid.Empty,
-                    Text = "Hejka",
-                    AuthorId = Guid.Empty,
-                    GeoStamp = new GeoInformation
-                    {
-                        Longitude = 10,
-                        Latitude = 10
-                    },
-                    SendDateTime = DateTime.Now.AddMinutes(-1)
-                },
-                new MessageDTO
-                {
-                    Id = Guid.Empty,
-                    Text = "No siema",
-                    AuthorId = Guid.Empty,
-                    GeoStamp = new GeoInformation
-                    {
-                        Longitude = 10,
-                        Latitude = 10
-                    },
-                    SendDateTime = DateTime.Now
-                }
-            };
-            return messageDtos;
+            });
         }
 
         /// <summary>
         /// Metoda pobiera wiadomości z czatu o podanym id 
         /// </summary>
         /// <param name="conversationId">Id czatu</param>
-        /// <param name="afterMessage">Id najświeższej posiadanej wiadomości. Parametr opcjonalny, nie można go łączyć z <see cref="beforeMessage"/> </param>
-        /// <param name="beforeMessage">Id najstarszej posiadanej wiadomości. Parametr opcjonalny, nie można go łączyć z <see cref="afterMessage"/> </param>
+        /// <param name="afterMessage">Id najświeższej posiadanej wiadomości. Parametr opcjonalny.</param>
         /// <returns></returns>
         [HttpGet]
         [Route("{conversationId:guid}")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
-        public IEnumerable<MessageDTO> GetMessages(Guid conversationId, [FromUri] Guid? afterMessage,
-            [FromUri] Guid? beforeMessage)
+        public IEnumerable<MessageDTO> GetMessages(Guid conversationId, [FromUri] Guid? afterMessage = null)
         {
-            var retrieveMessages = new GetMessagesInConversationQuery()
+            return _please.Give(new GetMessagesInConversationQuery()
 
             {
                 ConversationId = conversationId,
                 AfterMessageId = afterMessage,
+                UserId = Guid.Parse(User.Identity.GetUserId())
+            });
+        }
+
+        /// <summary>
+        /// Metoda pobiera starsze wiadomości z czatu o podanym id 
+        /// </summary>
+        /// <param name="conversationId">Id czatu</param>
+        /// <param name="beforeMessage">Id najstarszej wiadomości</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{conversationId:guid}/history")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
+        public IEnumerable<MessageDTO> GetMessages(Guid conversationId, [FromUri] Guid beforeMessage)
+        {
+            return _please.Give(new GetMessagesInConversationQuery()
+
+            {
+                ConversationId = conversationId,
                 BeforeMessageId = beforeMessage,
                 UserId = Guid.Parse(User.Identity.GetUserId())
-            };
-//            var messageDtos = _please.Give(retrieveMessages);
-            IEnumerable<MessageDTO> messageDtos = new List<MessageDTO>
-            {
-                new MessageDTO
-                {
-                    Id = Guid.Empty,
-                    Text = "Hejka",
-                    AuthorId = Guid.Empty,
-                    GeoStamp = new GeoInformation
-                    {
-                        Longitude = 10,
-                        Latitude = 10
-                    },
-                    SendDateTime = DateTime.Now.AddMinutes(-1)
-                },
-                new MessageDTO
-                {
-                    Id = Guid.Empty,
-                    Text = "No siema",
-                    AuthorId = Guid.Empty,
-                    GeoStamp = new GeoInformation
-                    {
-                        Longitude = 10,
-                        Latitude = 10
-                    },
-                    SendDateTime = DateTime.Now
-                }
-            };
-            return messageDtos;
+            });
         }
 
         [HttpPost]
@@ -210,21 +164,19 @@ namespace ChatSggw.API.Controllers
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(Guid), Description = "Returns messeage ID.")]
         public HttpResponseMessage Send([FromBody] string text, Guid conversationId)
         {
-            var messageId = new Guid();
-            var sendMessage = new SendMessageCommand
+            var messageId = Guid.NewGuid();
+
+            var commandResult = _please.Do(new SendMessageCommand
             {
                 ConversationId = conversationId,
-                MemberId = Guid.Parse(User.Identity.GetUserId()),
+                UserId = Guid.Parse(User.Identity.GetUserId()),
                 MessageId = messageId,
                 Text = text
-            };
+            });
 
-            //var commandResult = _please.Do(sendMessage);
-
-            //            return commandResult.WasSuccessful()
-            //                ? Request.CreateResponse(HttpStatusCode.OK, messageId);
-            //                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
-            return Request.CreateResponse(HttpStatusCode.OK, messageId);
+            return commandResult.WasSuccessful()
+                ? Request.CreateResponse(HttpStatusCode.OK, messageId)
+                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
     }
 }

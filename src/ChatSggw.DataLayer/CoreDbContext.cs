@@ -3,7 +3,6 @@ using System.Data.Entity;
 using ChatSggw.DataLayer.IdentityModels;
 using ChatSggw.Domain.Entities.Conversation;
 using ChatSggw.Domain.Entities.FriendsPair;
-using ChatSggw.Domain.Entities.User;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ChatSggw.DataLayer
@@ -18,6 +17,9 @@ namespace ChatSggw.DataLayer
 
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<FriendsPair> FriendsPairs { get; set; }
+
+        public DbSet<Message> ConversationMessages { get; set; }
+        public DbSet<ConversationMember> ConversationMembers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -37,14 +39,6 @@ namespace ChatSggw.DataLayer
             modelBuilder.Entity<ConversationMember>().HasKey(m => new { m.ConversationId, m.UserId });
 
             //UserMapping
-            modelBuilder.Entity<ApplicationUser>()
-                .HasMany(u => u.DirectConversations)
-                .WithRequired()
-                .WillCascadeOnDelete();
-
-            modelBuilder.Entity<UserDirectConversation>()
-                .HasKey(udc => new { udc.UserId, udc.InterlocutorId });
-
             modelBuilder.Entity<FriendsPair>()
                 .HasKey(f => new { f.FirstUserId, f.SecondUserId });
 

@@ -19,7 +19,7 @@ namespace ChatSggw.Services.Commands.User
         public void Execute(PingUserLocationCommand command)
         {
             var user = _db.Users.Find(command.UserId);
-            user.CurrentPosition = command.Location.ConvertLatLonToDbGeography();
+            user.PingUser(command.Location);
             _db.SaveChanges();
         }
     }

@@ -2,10 +2,11 @@
 using ChatSggw.Domain.Commands.FriendsPair;
 using System;
 using System.Linq;
+using Neat.CQRSLite.Contract.Commands;
 
 namespace ChatSggw.Services.Commands.FriendsPair
 {
-    public class AddFriendCommandHandler
+    public class AddFriendCommandHandler : ICommandHandler<AddFriendCommand>
     {
         private readonly CoreDbContext _db;
 
@@ -14,17 +15,28 @@ namespace ChatSggw.Services.Commands.FriendsPair
             _db = db;
         }
 
-        public void Execute(AddRemoveFriendCommand command)
+        public void Execute(AddFriendCommand command)
         {
             if (_db.FriendsPairs.Any(
-                x => (x.FirstUserId == command.FirstUserId && x.SecondUserId == command.SecondUserId)
-                || x.FirstUserId == command.SecondUserId && x.SecondUserId == command.FirstUserId))
+                x => (x.FirstUserId == command.UserId && x.SecondUserId == command.FriendId)
+                     || x.FirstUserId == command.FriendId && x.SecondUserId == command.UserId))
             {
-                throw new Exception("Those members are already friends!");
+                //skip users are already friends
+                return;
+            }
+            
+            if (!_db.Users.Any(u => u.Id == command.FriendId))
+            {
+                throw new Exception("Używtkownik nie istnieje");
             }
 
-            _db.FriendsPairs.Add(
-                new Domain.Entities.FriendsPair.FriendsPair(command.FirstUserId, command.SecondUserId));
+
+            var conversation =
+                Domain.Entities.Conversation.Conversation.CreateDirectConversation(command.UserId, command.FriendId);
+            var pair = Domain.Entities.FriendsPair.FriendsPair.Create(command.UserId, command.FriendId,
+                conversation.Id);
+            _db.FriendsPairs.Add(pair);
+            _db.Conversations.Add(conversation);
             _db.SaveChanges();
         }
     }

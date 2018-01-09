@@ -52,48 +52,21 @@ namespace ChatSggw.API.Controllers
         [Route("search")]
         public IEnumerable<UserInfoDTO> Search([FromUri] string query)
         {
-            var q = new SearchUserQuery
+            return _please.Give(new SearchUserQuery
             {
                 QueryString = query,
                 UserId = Guid.Parse(User.Identity.GetUserId())
-            };
-
-            IEnumerable<UserInfoDTO> users = new List<UserInfoDTO>
-            {
-                new UserInfoDTO
-                {
-                    Id = Guid.Empty,
-                    IsActive = true,
-                    UserName = "Mietek"
-                }
-            };
-
-            return users;
+            });
         }
 
-        //todo: do zrobienia tak, zeby pracowalo z FriendsPairDTO
         [HttpGet]
         [Route("friends")]
         public IEnumerable<FriendInfoDTO> GetFriendsInfo()
         {
-            var q = new GetMyFriendsInfoQuery
+            return _please.Give(new GetMyFriendsInfoQuery
             {
                 UserId = Guid.Parse(User.Identity.GetUserId())
-            };
-
-            IEnumerable<FriendInfoDTO> friends = new List<FriendInfoDTO>
-            {
-                new FriendInfoDTO
-                {
-                    Id = Guid.Empty,
-                    IsActive = true,
-                    UserName = "Mietek",
-                    ConversationId = Guid.Empty,
-                    HasUnreadMessages = true
-                }
-            };
-
-            return friends;
+            });
         }
     }
 }
