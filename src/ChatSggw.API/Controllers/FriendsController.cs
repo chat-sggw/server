@@ -1,5 +1,4 @@
-﻿using ChatSggw.API.Helpers;
-using ChatSggw.Domain.Commands.FriendsPair;
+﻿using ChatSggw.Domain.Commands.FriendsPair;
 using Microsoft.AspNet.Identity;
 using Neat.CQRSLite.Contract.Commands;
 using Neat.CQRSLite.Contract.Helpers;
@@ -27,13 +26,16 @@ namespace ChatSggw.API.Controllers
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
         public HttpResponseMessage AddFriend(Guid id)
         {
-            var command = new AddFriendCommand
+
+            var commandResult = _please.Do(new AddFriendCommand
             {
                 UserId = Guid.Parse(User.Identity.GetUserId()),
                 FriendId = id
-            };
+            });
 
-            return command.ProceesForResult(_please, Request);
+            return commandResult.WasSuccessful()
+                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
 
         [HttpDelete]
@@ -42,13 +44,15 @@ namespace ChatSggw.API.Controllers
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
         public HttpResponseMessage RemoveFriend(Guid id)
         {
-            var command = new RemoveFriendCommand
+            var commandResult = _please.Do(new RemoveFriendCommand
             {
                 UserId = Guid.Parse(User.Identity.GetUserId()),
                 FriendId = id
-            };
+            });
 
-            return command.ProceesForResult(_please, Request);
+            return commandResult.WasSuccessful()
+                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
     }
 }
