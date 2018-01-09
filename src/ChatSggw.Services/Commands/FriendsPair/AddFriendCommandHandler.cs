@@ -25,8 +25,12 @@ namespace ChatSggw.Services.Commands.FriendsPair
                 return;
             }
 
-            _db.FriendsPairs.Add(
-                new Domain.Entities.FriendsPair.FriendsPair(command.UserId, command.FriendId));
+            var conversation =
+                Domain.Entities.Conversation.Conversation.CreateDirectConversation(command.UserId, command.FriendId);
+            var pair = Domain.Entities.FriendsPair.FriendsPair.Create(command.UserId, command.FriendId,
+                conversation.Id);
+            _db.FriendsPairs.Add(pair);
+            _db.Conversations.Add(conversation);
             _db.SaveChanges();
         }
     }

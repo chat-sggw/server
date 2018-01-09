@@ -23,7 +23,7 @@ namespace ChatSggw.Services.Queries.User
                 .Where(pair => pair.FirstUserId == query.UserId || pair.SecondUserId == query.UserId)
                 .Select(pair => new
                 {
-                    ConversationId = Guid.Empty, //todo
+                    ConversationId = pair.ConversationId,
                     FriendId = pair.FirstUserId != query.UserId ? pair.FirstUserId : pair.SecondUserId,
                 })
                 .Join(_db.Users, pair => pair.FriendId, user => user.Id, (pair, user) => new FriendInfoDTO()

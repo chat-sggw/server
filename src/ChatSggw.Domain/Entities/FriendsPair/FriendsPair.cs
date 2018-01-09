@@ -6,13 +6,16 @@ namespace ChatSggw.Domain.Entities.FriendsPair
     {
         public Guid FirstUserId { get; set; }
         public Guid SecondUserId { get; set; }
-        public DateTime DateTimeStamp { get; set; }
+        public Guid ConversationId { get; set; }
 
-        public FriendsPair(Guid firstUserId, Guid secondUserId)
+        public static FriendsPair Create(Guid firstUserId, Guid secondUserId, Guid conversationId)
         {
-            FirstUserId = firstUserId;
-            SecondUserId = secondUserId;
-            DateTimeStamp = DateTime.Now;
+            return new FriendsPair
+            {
+                FirstUserId = firstUserId,
+                SecondUserId = secondUserId,
+                ConversationId = conversationId,
+            };
         }
     }
 }
