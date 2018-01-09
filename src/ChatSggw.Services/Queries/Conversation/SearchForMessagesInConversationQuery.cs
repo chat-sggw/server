@@ -41,13 +41,7 @@ namespace ChatSggw.Services.Queries.Conversation
                     SendDateTime = m.SendDateTime,
                     AuthorId = m.AuthorId,
                     Id = m.Id,
-                    GeoStamp = m.GeoStamp.Longitude != null && m.GeoStamp.Latitude != null
-                        ? new GeoInformation()
-                        {
-                            Longitude = m.GeoStamp.Longitude.Value,
-                            Latitude = m.GeoStamp.Latitude.Value,
-                        }
-                        : (GeoInformation?) null
+                    GeoStamp = m.GeoStamp,
                 })
                 .Take(101) // limit to 20 max messages
                 .ToList();

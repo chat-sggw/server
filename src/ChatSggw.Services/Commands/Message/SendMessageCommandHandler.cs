@@ -34,7 +34,7 @@ namespace ChatSggw.Services.Commands.Message
                 throw new Exception("Brak uprawnień");
             }
 
-            conversation.AddMessage(command.Text, user.Id, user.CurrentPosition.ConvertDbGeographyLatLon());
+            conversation.AddMessage(command.Text, user.Id, user.CurrentPosition);
             _db.SaveChanges();
         }
     }

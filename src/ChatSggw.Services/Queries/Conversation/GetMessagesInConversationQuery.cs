@@ -40,13 +40,7 @@ namespace ChatSggw.Services.Queries.Conversation
                         SendDateTime = m.SendDateTime,
                         AuthorId = m.AuthorId,
                         Id = m.Id,
-                        GeoStamp = m.GeoStamp.Longitude != null && m.GeoStamp.Latitude != null
-                            ? new GeoInformation()
-                            {
-                                Longitude = m.GeoStamp.Longitude.Value,
-                                Latitude = m.GeoStamp.Latitude.Value,
-                            }
-                            : (GeoInformation?) null
+                        GeoStamp = m.GeoStamp,
                     })
                     .AsEnumerable()
                     .Reverse();
@@ -70,13 +64,7 @@ namespace ChatSggw.Services.Queries.Conversation
                         SendDateTime = m.SendDateTime,
                         AuthorId = m.AuthorId,
                         Id = m.Id,
-                        GeoStamp = m.GeoStamp.Longitude != null && m.GeoStamp.Latitude != null
-                            ? new GeoInformation()
-                            {
-                                Longitude = m.GeoStamp.Longitude.Value,
-                                Latitude = m.GeoStamp.Latitude.Value,
-                            }
-                            : (GeoInformation?) null
+                        GeoStamp = m.GeoStamp,
                     })
                     .AsEnumerable();
             }
@@ -99,13 +87,7 @@ namespace ChatSggw.Services.Queries.Conversation
                         SendDateTime = m.SendDateTime,
                         AuthorId = m.AuthorId,
                         Id = m.Id,
-                        GeoStamp = m.GeoStamp.Longitude != null && m.GeoStamp.Latitude != null
-                            ? new GeoInformation()
-                            {
-                                Longitude = m.GeoStamp.Longitude.Value,
-                                Latitude = m.GeoStamp.Latitude.Value,
-                            }
-                            : (GeoInformation?) null
+                        GeoStamp = m.GeoStamp,
                     })
                     .AsEnumerable()
                     .Reverse();
