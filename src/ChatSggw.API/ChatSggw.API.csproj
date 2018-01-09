@@ -160,6 +160,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ConversationController.cs" />
+    <Compile Include="Controllers\FriendsController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Helpers\CommandResultHelper.cs" />
+    <Compile Include="Swagger\filters\AuthTokenOperation.cs" />
+    <Compile Include="App_Start\Installers\AuthInstaller.cs" />
     <Compile Include="App_Start\Installers\DataLayerInstaller.cs" />
     <Compile Include="App_Start\Installers\ServiceInstaller.cs" />
     <Compile Include="App_Start\Installers\WebApiInstaller.cs" />
@@ -169,14 +175,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\DependencyResolver.cs" />
     <Compile Include="Infrastructure\DependencyScope.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MeViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -188,6 +192,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <EmbeddedResource Include="Swagger\CustomSwagger.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -212,6 +217,10 @@
     <ProjectReference Include="..\ChatSggw.Domain\ChatSggw.Domain.csproj">
       <Project>{0B3870F8-CB80-4EC7-88ED-055303EC3AEB}</Project>
       <Name>ChatSggw.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatSggw.Services\ChatSggw.Services.csproj">
+      <Project>{6cf2a8e7-a325-497a-b439-82058ccd9878}</Project>
+      <Name>ChatSggw.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
