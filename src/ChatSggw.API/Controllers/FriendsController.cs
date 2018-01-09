@@ -34,7 +34,7 @@ namespace ChatSggw.API.Controllers
             });
 
             return commandResult.WasSuccessful()
-                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                ? Request.CreateResponse(HttpStatusCode.OK, "Użytkownik został pomyślnie dodany do listy znajomych")
                 : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
 
@@ -51,7 +51,7 @@ namespace ChatSggw.API.Controllers
             });
 
             return commandResult.WasSuccessful()
-                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                ? Request.CreateResponse(HttpStatusCode.OK, "Użytkownik został usunięty z grona znajomych")
                 : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
     }
