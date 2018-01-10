@@ -43,7 +43,7 @@ namespace ChatSggw.Services.Commands.FriendsPair
             }
 
             var conversation = _db.Conversations.Find(friendsPair.ConversationId);
-            var bannedPair = Domain.Entities.FriendsPair.BannedPair.Create(command.UserId, command.FriendId, friendsPair.ConversationId);
+            var bannedPair = Domain.Entities.BannedPair.BannedPair.Create(command.UserId, command.FriendId, friendsPair.ConversationId);
 
             _db.BannedPairs.Add(bannedPair);
             _db.FriendsPairs.Remove(friendsPair);

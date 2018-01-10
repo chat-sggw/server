@@ -3,6 +3,7 @@ using System.Data.Entity;
 using ChatSggw.DataLayer.IdentityModels;
 using ChatSggw.Domain.Entities.Conversation;
 using ChatSggw.Domain.Entities.FriendsPair;
+using ChatSggw.Domain.Entities.BannedPair;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ChatSggw.DataLayer
@@ -41,6 +42,9 @@ namespace ChatSggw.DataLayer
 
             //UserMapping
             modelBuilder.Entity<FriendsPair>()
+                .HasKey(f => new { f.FirstUserId, f.SecondUserId });
+
+            modelBuilder.Entity<BannedPair>()
                 .HasKey(f => new { f.FirstUserId, f.SecondUserId });
 
             base.OnModelCreating(modelBuilder);

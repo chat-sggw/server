@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChatSggw.Domain.Entities.FriendsPair
+namespace ChatSggw.Domain.Entities.BannedPair
 {
     public class BannedPair
     {
