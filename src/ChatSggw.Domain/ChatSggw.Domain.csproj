@@ -55,7 +55,8 @@
     <Compile Include="Commands\Conversation\RemoveMemberFromConversationCommand.cs" />
     <Compile Include="Commands\FriendsPair\AddFriendCommand.cs" />
     <Compile Include="Commands\Conversation\CreateGroupConversationCommand.cs" />
-    <Compile Include="Commands\FriendsPair\BanFriendCommand.cs" />
+    <Compile Include="Commands\BannedPair\UnbanFriendCommand.cs" />
+    <Compile Include="Commands\BannedPair\BanFriendCommand.cs" />
     <Compile Include="Commands\FriendsPair\RemoveFriendCommand.cs" />
     <Compile Include="Commands\User\PingUserLocationCommand.cs" />
     <Compile Include="Commands\Message\SendMessageCommand.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="DTO\Message\MessageDTO.cs" />
     <Compile Include="DTO\User\FriendInfoDTO.cs" />
     <Compile Include="DTO\User\UserInfoDTO.cs" />
+    <Compile Include="Entities\BannedPair\BannedPair.cs" />
     <Compile Include="Entities\Conversation\Conversation.cs" />
     <Compile Include="Entities\Conversation\ConversationMember.cs" />
     <Compile Include="Entities\FriendsPair\FriendsPair.cs" />

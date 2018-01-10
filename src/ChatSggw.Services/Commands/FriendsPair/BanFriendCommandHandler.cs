@@ -18,9 +18,8 @@ namespace ChatSggw.Services.Commands.FriendsPair
         public void Execute(BanFriendCommand command)
         {
             // Sprawdzam, czy istnieje powiązanie między osobami w tabeli BannedFriendsPairs.
-            if (_db.BannedFriendsPairs.Any(
-                x => (x.FirstUserId == command.UserId && x.SecondUserId == command.FriendId)
-                    || x.FirstUserId == command.FriendId && x.SecondUserId == command.UserId))
+            if (_db.BannedPairs.Any(
+                x => (x.FirstUserId == command.UserId && x.SecondUserId == command.FriendId)))
             {
                 // Pomijam, użytkownik jest już zablokowany.
                 return;
@@ -42,9 +41,13 @@ namespace ChatSggw.Services.Commands.FriendsPair
                 // Pomijam, osoby nie są znajomymi
                 return;
             }
-            
-            _db.BannedFriendsPairs.Add(friendsPair);
+
+            var conversation = _db.Conversations.Find(friendsPair.ConversationId);
+            var bannedPair = Domain.Entities.FriendsPair.BannedPair.Create(command.UserId, command.FriendId, friendsPair.ConversationId);
+
+            _db.BannedPairs.Add(bannedPair);
             _db.FriendsPairs.Remove(friendsPair);
+            _db.Conversations.Remove(conversation);
             _db.SaveChanges();
         }
     }
