@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.ExceptionHandling;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
@@ -28,6 +29,9 @@ namespace ChatSggw.API
             // Use camel case for JSON data.
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
                 new CamelCasePropertyNamesContractResolver();
+
+            //CORS support
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             // Web API routes
             config.MapHttpAttributeRoutes();
