@@ -14,6 +14,7 @@ namespace ChatSggw.DataLayer
         public CoreDbContext(Settings settings) 
             : base(settings.ConnectionString)
         {
+            Database.SetInitializer<CoreDbContext>(new DropCreateDatabaseIfModelChanges<CoreDbContext>());
         }
 
         public DbSet<Conversation> Conversations { get; set; }
