@@ -1,8 +1,8 @@
 ﻿using ChatSggw.DataLayer;
-using ChatSggw.Domain.Commands.FriendsPair;
 using System;
 using System.Linq;
 using Neat.CQRSLite.Contract.Commands;
+using ChatSggw.Domain.Commands.BannedPair;
 
 namespace ChatSggw.Services.Commands.FriendsPair
 {

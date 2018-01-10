@@ -1,7 +1,7 @@
 ﻿using System;
 using Neat.CQRSLite.Contract.Commands;
 
-namespace ChatSggw.Domain.Commands.FriendsPair
+namespace ChatSggw.Domain.Commands.BannedPair
 {
     public class BanFriendCommand : ICommand
     {

@@ -51,12 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BannedPair\BanFriendCommand.cs" />
+    <Compile Include="Commands\BannedPair\UnbanFriendCommand.cs" />
     <Compile Include="Commands\Conversation\AddMemberToConversationCommand.cs" />
     <Compile Include="Commands\Conversation\RemoveMemberFromConversationCommand.cs" />
     <Compile Include="Commands\FriendsPair\AddFriendCommand.cs" />
     <Compile Include="Commands\Conversation\CreateGroupConversationCommand.cs" />
-    <Compile Include="Commands\BannedPair\UnbanFriendCommand.cs" />
-    <Compile Include="Commands\BannedPair\BanFriendCommand.cs" />
     <Compile Include="Commands\FriendsPair\RemoveFriendCommand.cs" />
     <Compile Include="Commands\User\PingUserLocationCommand.cs" />
     <Compile Include="Commands\Message\SendMessageCommand.cs" />

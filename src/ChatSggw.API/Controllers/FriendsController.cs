@@ -1,4 +1,5 @@
-﻿using ChatSggw.Domain.Commands.FriendsPair;
+﻿using ChatSggw.Domain.Commands.BannedPair;
+using ChatSggw.Domain.Commands.FriendsPair;
 using Microsoft.AspNet.Identity;
 using Neat.CQRSLite.Contract.Commands;
 using Neat.CQRSLite.Contract.Helpers;
