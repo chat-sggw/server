@@ -11,14 +11,10 @@ namespace ChatSggw.API.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            var dbSettings = new CoreDbContext.Settings()
-            {
-                ConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString,
-            };
+           
 
             container.Register(
                 Component.For<CoreDbContext>()
-                    .DependsOn(Dependency.OnValue<CoreDbContext.Settings>(dbSettings))
                     .LifestyleTransient(),
                 Classes.FromAssemblyInThisApplication()
                     .BasedOn(typeof(IRepository<,>))

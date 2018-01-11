@@ -11,8 +11,7 @@ namespace ChatSggw.DataLayer
     public class CoreDbContext : IdentityDbContext<ApplicationUser, CustomRole, Guid,
         CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
-        public CoreDbContext(Settings settings)
-            : base(settings.ConnectionString)
+        public CoreDbContext() : base("DefaultConnection")
         {
             Database.SetInitializer(
                 new MigrateDatabaseToLatestVersion<CoreDbContext, MigrationsConfiguration>());
@@ -57,9 +56,5 @@ namespace ChatSggw.DataLayer
             }
         }
 
-        public class Settings
-        {
-            public string ConnectionString { get; set; }
-        }
     }
 }
