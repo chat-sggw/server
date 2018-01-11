@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using ChatSggw.DataLayer.IdentityModels;
 using ChatSggw.Domain.Entities.Conversation;
 using ChatSggw.Domain.Entities.FriendsPair;
@@ -10,9 +11,11 @@ namespace ChatSggw.DataLayer
     public class CoreDbContext : IdentityDbContext<ApplicationUser, CustomRole, Guid,
         CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
-        public CoreDbContext(Settings settings) 
+        public CoreDbContext(Settings settings)
             : base(settings.ConnectionString)
         {
+            Database.SetInitializer(
+                new MigrateDatabaseToLatestVersion<CoreDbContext, MigrationsConfiguration>());
         }
 
         public DbSet<Conversation> Conversations { get; set; }
@@ -35,14 +38,23 @@ namespace ChatSggw.DataLayer
                 .HasMany(c => c.Members)
                 .WithRequired()
                 .WillCascadeOnDelete();
-            modelBuilder.Entity<Message>().HasKey(m => new { m.ConversationId, m.Id });
-            modelBuilder.Entity<ConversationMember>().HasKey(m => new { m.ConversationId, m.UserId });
+            modelBuilder.Entity<Message>().HasKey(m => new {m.ConversationId, m.Id});
+            modelBuilder.Entity<ConversationMember>().HasKey(m => new {m.ConversationId, m.UserId});
 
             //UserMapping
             modelBuilder.Entity<FriendsPair>()
-                .HasKey(f => new { f.FirstUserId, f.SecondUserId });
+                .HasKey(f => new {f.FirstUserId, f.SecondUserId});
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public class MigrationsConfiguration : DbMigrationsConfiguration<CoreDbContext>
+        {
+            public MigrationsConfiguration()
+            {
+                AutomaticMigrationsEnabled = true;
+                AutomaticMigrationDataLossAllowed = true;
+            }
         }
 
         public class Settings
