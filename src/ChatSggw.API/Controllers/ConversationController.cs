@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.AccessControl;
 using System.Web;
 using System.Web.Http;
 using ChatSggw.Domain.Commands.Conversation;
@@ -162,7 +163,7 @@ namespace ChatSggw.API.Controllers
         [Route("{conversationId:guid}/send")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(Guid), Description = "Returns messeage ID.")]
-        public HttpResponseMessage Send([FromBody] string text, Guid conversationId)
+        public HttpResponseMessage Send([FromBody] SendMessageModel model, Guid conversationId)
         {
             var messageId = Guid.NewGuid();
 
@@ -171,12 +172,17 @@ namespace ChatSggw.API.Controllers
                 ConversationId = conversationId,
                 UserId = Guid.Parse(User.Identity.GetUserId()),
                 MessageId = messageId,
-                Text = text
+                Text = model.Text,
             });
 
             return commandResult.WasSuccessful()
                 ? Request.CreateResponse(HttpStatusCode.OK, messageId)
                 : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
+        }
+
+        public class SendMessageModel
+        {
+            public string Text { get; set; }
         }
     }
 }

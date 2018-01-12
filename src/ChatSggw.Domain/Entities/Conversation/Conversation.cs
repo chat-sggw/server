@@ -23,6 +23,10 @@ namespace ChatSggw.Domain.Entities.Conversation
 
         public void AddMessage(string text, Guid authorId, GeoInformation? geoStamp = null)
         {
+            if (text == null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
             if (!Members.Exists(cm => cm.UserId == authorId))
                 throw new InvalidOperationException(
                     $"User with ID: {authorId} is not in the conversation"); //todo specific exception 

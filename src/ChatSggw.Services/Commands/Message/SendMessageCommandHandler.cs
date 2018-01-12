@@ -29,11 +29,6 @@ namespace ChatSggw.Services.Commands.Message
                 throw new Exception("The conversation doesn't exist!");
             }
 
-            if (conversation.Members.All(m => m.UserId != user.Id))
-            {
-                throw new Exception("Brak uprawnień");
-            }
-
             conversation.AddMessage(command.Text, user.Id, user.CurrentPosition);
             _db.SaveChanges();
         }
