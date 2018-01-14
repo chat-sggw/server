@@ -19,7 +19,7 @@ namespace ChatSggw.Services.Commands.Conversation
             var members = command.Members.ToList();
             members.Add(command.UserId);
 
-            var conversation = Domain.Entities.Conversation.Conversation.CreateGroupConversation(members);
+            var conversation = Domain.Entities.Conversation.Conversation.CreateGroupConversation(members, command.IsGeoConversation);
             
             _db.Conversations.Add(conversation);
             _db.SaveChanges();

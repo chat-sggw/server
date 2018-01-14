@@ -19,6 +19,7 @@ namespace ChatSggw.Domain.Entities.Conversation
         public List<ConversationMember> Members { get; private set; }
         public List<Message> Messages { get; }
         public bool IsGroupConversation { get; private set; }
+        public bool IsGeoConversation { get; private set; }
 
 
         public void AddMessage(string text, Guid authorId, GeoInformation? geoStamp = null)
@@ -31,7 +32,10 @@ namespace ChatSggw.Domain.Entities.Conversation
                 throw new InvalidOperationException(
                     $"User with ID: {authorId} is not in the conversation"); //todo specific exception 
 
-
+            if (IsGeoConversation && geoStamp == null)
+            {
+                throw new Exception("Your current location is needed in geo-conversation!");
+            }
             var message = Message.Create(text, Id, authorId, geoStamp);
             Messages.Add(message);
             //DomainEvents.Raise(); todo
@@ -63,7 +67,8 @@ namespace ChatSggw.Domain.Entities.Conversation
             {
                 Id = Guid.NewGuid(),
                 StartDateTime = DateTime.Now,
-                IsGroupConversation = false
+                IsGroupConversation = false,
+                IsGeoConversation = false
             };
             conversation.Members.Add(ConversationMember.Create(conversation.Id, firstMember));
             conversation.Members.Add(ConversationMember.Create(conversation.Id, secondMember));
@@ -71,17 +76,24 @@ namespace ChatSggw.Domain.Entities.Conversation
             return conversation;
         }
 
-        public static Conversation CreateGroupConversation(IEnumerable<Guid> members)
+        public static Conversation CreateGroupConversation(IEnumerable<Guid> members, bool isGeoConversation)
         {
             var conversation = new Conversation
             {
                 Id = new Guid(),
                 StartDateTime = DateTime.Now,
-                IsGroupConversation = true
+                IsGroupConversation = true,
             };
             conversation.Members = members
                 .Select(m => ConversationMember.Create(conversation.Id, m))
                 .ToList();
+            conversation.IsGeoConversation = isGeoConversation;
+
+            if (!isGeoConversation) return conversation;
+            foreach (var member in conversation.Members)
+            {
+                member.setConversationRange(1000);
+            }
 
             return conversation;
         }

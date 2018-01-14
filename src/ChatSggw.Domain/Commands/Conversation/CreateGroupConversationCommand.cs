@@ -7,5 +7,6 @@ namespace ChatSggw.Domain.Commands.Conversation
     {
         public Guid[] Members { get; set; }
         public Guid UserId { get; set; }
+        public bool IsGeoConversation { get; set; }
     }
 }
