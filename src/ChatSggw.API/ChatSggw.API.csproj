@@ -183,9 +183,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="Infrastructure\DependencyResolver.cs" />
     <Compile Include="Infrastructure\DependencyScope.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -199,7 +196,6 @@
   <ItemGroup>
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
-    <Content Include="Global.asax" />
     <EmbeddedResource Include="Swagger\CustomSwagger.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -18,7 +18,7 @@ namespace ChatSggw.API
         {
             Container = new WindsorContainer();
             Container.Install(FromAssembly.This());
-            GlobalConfiguration.Configuration.DependencyResolver = new DependencyResolver(Container.Kernel);
+            config.DependencyResolver = new DependencyResolver(Container.Kernel);
 
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
