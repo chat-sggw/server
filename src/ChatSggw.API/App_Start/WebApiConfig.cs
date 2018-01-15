@@ -6,6 +6,7 @@ using Castle.Windsor.Installer;
 using ChatSggw.API.Infrastructure;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.Application;
 
 namespace ChatSggw.API
 {
@@ -35,9 +36,16 @@ namespace ChatSggw.API
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                "DefaultApi",
-                "api/{controller}/{id}",
-                new {id = RouteParameter.Optional}
+                name: "Swagger UI",
+                routeTemplate: "", // "/" root path
+                defaults: null,
+                constraints: null,
+                handler: new RedirectHandler(SwaggerDocsConfig.DefaultRootUrlResolver, "swagger/ui/index"));
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new {id = RouteParameter.Optional}
             );
         }
     }
