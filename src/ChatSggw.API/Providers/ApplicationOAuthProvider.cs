@@ -34,7 +34,11 @@ namespace ChatSggw.API.Providers
             }
 
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager);
-            var propertyDictionary = new Dictionary<string, string> { { "userName", user.UserName } };
+            var propertyDictionary = new Dictionary<string, string>
+            {
+                ["userName"] = user.UserName,
+                ["userId"] = user.Id.ToString()
+            };
             var properties = new AuthenticationProperties(propertyDictionary);
 
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
