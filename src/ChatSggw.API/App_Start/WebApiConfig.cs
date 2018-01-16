@@ -29,9 +29,6 @@ namespace ChatSggw.API
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
                 new CamelCasePropertyNamesContractResolver();
 
-            //CORS support
-            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 
