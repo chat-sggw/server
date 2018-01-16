@@ -194,7 +194,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <EmbeddedResource Include="Swagger\CustomSwagger.js" />
     <Content Include="Web.config">
