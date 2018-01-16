@@ -32,7 +32,7 @@ namespace ChatSggw.Domain.Entities.Conversation
                     $"User with ID: {authorId} is not in the conversation"); //todo specific exception 
 
 
-            var message = Message.Create(text, authorId, Id, geoStamp);
+            var message = Message.Create(text, Id, authorId, geoStamp);
             Messages.Add(message);
             //DomainEvents.Raise(); todo
         }
