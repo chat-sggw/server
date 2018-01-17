@@ -83,17 +83,11 @@ namespace ChatSggw.Domain.Entities.Conversation
                 Id = new Guid(),
                 StartDateTime = DateTime.Now,
                 IsGroupConversation = true,
+                IsGeoConversation = isGeoConversation,
             };
             conversation.Members = members
-                .Select(m => ConversationMember.Create(conversation.Id, m))
+                .Select(m => ConversationMember.Create(conversation.Id, m, isGeoConversation ? 10 : 0))
                 .ToList();
-            conversation.IsGeoConversation = isGeoConversation;
-
-            if (!isGeoConversation) return conversation;
-            foreach (var member in conversation.Members)
-            {
-                member.setConversationRange(1000);
-            }
 
             return conversation;
         }

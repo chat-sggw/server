@@ -33,17 +33,17 @@ namespace ChatSggw.API.Controllers
         /// <summary>
         /// Metoda tworzy nową konwersację grupową
         /// </summary>
-        /// <param name="members">Lista identyfikatorów przyjaciół których chcemy dodać do nowo utworzonej grupy</param>
         /// <returns>Id konwersacji grupowej</returns>
         [HttpPost]
         [Route("create")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(Guid))]
-        public HttpResponseMessage Create([FromBody] Guid[] members)
+        public HttpResponseMessage Create(CreateGroupModel model)
         {
             var commandResult = _please.Do(new CreateGroupConversationCommand
             {
-                Members = members,
+                Members = model.Members,
+                IsGeoConversation = model.IsGeoChat,
                 UserId = Guid.Parse(User.Identity.GetUserId())
             });
 
@@ -183,6 +183,19 @@ namespace ChatSggw.API.Controllers
         public class SendMessageModel
         {
             public string Text { get; set; }
+        }
+
+        public class CreateGroupModel
+        {
+            /// <summary>
+            /// Lista identyfikatorów przyjaciół których chcemy dodać do nowo utworzonej grupy
+            /// </summary>
+            public Guid[] Members { get; set; }
+
+            /// <summary>
+            /// Określa czy czat ma być konwersacją grupową
+            /// </summary>
+            public bool IsGeoChat { get; set; }
         }
     }
 }
