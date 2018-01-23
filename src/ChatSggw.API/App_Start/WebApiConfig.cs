@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.ExceptionHandling;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using ChatSggw.API.Infrastructure;
+using Elmah.Contrib.WebApi;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.Application;

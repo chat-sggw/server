@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.ExceptionHandling;
+using Elmah.Contrib.WebApi;
 using Microsoft.Owin;
 using Owin;
 
@@ -20,6 +22,11 @@ namespace ChatSggw.API
             ConfigureAuth(app);
             SwaggerConfig.Register(config);
             app.UseWebApi(config);
+
+
+            //config.Routes.IgnoreRoute("axd", "{resource}.axd/{*pathInfo}");
+
+            config.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
         }
     }
 }
