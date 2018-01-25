@@ -10,5 +10,6 @@ namespace ChatSggw.Domain.DTO.Message
         public Guid AuthorId { get;  set; }
         public DateTime SendDateTime { get;  set; }
         public GeoInformation? GeoStamp { get;  set; }
+        public double? Distance { get; set; }
     }
 }
