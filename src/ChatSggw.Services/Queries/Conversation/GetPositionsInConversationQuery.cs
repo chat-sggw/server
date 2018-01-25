@@ -29,8 +29,9 @@ namespace ChatSggw.Services.Queries.Conversation
 
             return _db.ConversationMembers
                 .Where(m => m.ConversationId == query.ConversationId)
+                .Join(_db.Users, m => m.UserId, u => u.Id, (m, u) => u)
                 .ToList()
-                .Join(_db.Users, m => m.UserId, u => u.Id, (m, u) => new UserInfoPositionDTO()
+                .Select(u => new UserInfoPositionDTO()
                 {
                     UserId = u.Id,
                     UserName = u.UserName,

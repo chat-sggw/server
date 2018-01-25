@@ -187,8 +187,7 @@ namespace ChatSggw.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{conversationId:guid}/positions")]
-        [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
-        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(IEnumerable<UserInfoPositionDTO>))]
         public IEnumerable<UserInfoPositionDTO> GetPositions(Guid conversationId)
         {
             return _please.Give(new GetPositionsInConvesationQuery()
