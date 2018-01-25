@@ -29,15 +29,11 @@ namespace ChatSggw.API.Controllers
         [Route("ping")]
         [SwaggerResponse(HttpStatusCode.BadRequest, Type = typeof(IEnumerable<ValidationError>))]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(string))]
-        public HttpResponseMessage Ping([FromBody] double longitude, [FromBody] double latitude)
+        public HttpResponseMessage Ping([FromBody] GeoInformation geoInformation)
         {
             var pingUserLocation = new PingUserLocationCommand
             {
-                Location = new GeoInformation
-                {
-                    Longitude = longitude,
-                    Latitude = latitude
-                },
+                Location = geoInformation,
                 UserId = Guid.Parse(User.Identity.GetUserId())
             };
 

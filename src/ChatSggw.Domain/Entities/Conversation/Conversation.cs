@@ -76,11 +76,11 @@ namespace ChatSggw.Domain.Entities.Conversation
             return conversation;
         }
 
-        public static Conversation CreateGroupConversation(IEnumerable<Guid> members, bool isGeoConversation)
+        public static Conversation CreateGroupConversation(Guid newId, IEnumerable<Guid> members, bool isGeoConversation)
         {
             var conversation = new Conversation
             {
-                Id = new Guid(),
+                Id = newId,
                 StartDateTime = DateTime.Now,
                 IsGroupConversation = true,
                 IsGeoConversation = isGeoConversation,

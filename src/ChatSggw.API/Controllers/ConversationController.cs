@@ -40,15 +40,18 @@ namespace ChatSggw.API.Controllers
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof(Guid))]
         public HttpResponseMessage Create(CreateGroupModel model)
         {
+            var id = Guid.NewGuid();
             var commandResult = _please.Do(new CreateGroupConversationCommand
             {
                 Members = model.Members,
                 IsGeoConversation = model.IsGeoChat,
-                UserId = Guid.Parse(User.Identity.GetUserId())
+                UserId = Guid.Parse(User.Identity.GetUserId()),
+                NewId = id,
+
             });
 
             return commandResult.WasSuccessful()
-                ? Request.CreateResponse(HttpStatusCode.OK, "ok")
+                ? Request.CreateResponse(HttpStatusCode.OK, id)
                 : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
         }
 
