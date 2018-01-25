@@ -61,11 +61,13 @@
     <Compile Include="Commands\Conversation\RemoveMemberFromConversationCommandHandler.cs" />
     <Compile Include="Commands\FriendsPair\UnbanFriendCommandHandler.cs" />
     <Compile Include="Commands\FriendsPair\BanFriendCommandHandler.cs" />
+    <Compile Include="Commands\Conversation\RemoveMemberFromConversationCommandHandler.cs" />    
     <Compile Include="Commands\Message\SendMessageCommandHandler.cs" />
     <Compile Include="Commands\FriendsPair\AddFriendCommandHandler.cs" />
     <Compile Include="Commands\User\PingUserLocationCommandHandler.cs" />
     <Compile Include="Commands\FriendsPair\RemoveFriendCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\Conversation\GetPositionsInConversationQuery.cs" />
     <Compile Include="Queries\Conversation\GetMessagesInConversationQuery.cs" />
     <Compile Include="Queries\Conversation\SearchForMessagesInConversationQuery.cs" />
     <Compile Include="Queries\User\GetMyFriendsInfoQuery.cs" />

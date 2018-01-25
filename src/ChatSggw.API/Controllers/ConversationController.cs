@@ -8,6 +8,7 @@ using System.Web.Http;
 using ChatSggw.Domain.Commands.Conversation;
 using ChatSggw.Domain.Commands.Message;
 using ChatSggw.Domain.DTO.Message;
+using ChatSggw.Domain.DTO.User;
 using ChatSggw.Domain.Entities.Conversation;
 using ChatSggw.Domain.Queries.Conversation;
 using ChatSggw.Domain.Structs;
@@ -177,6 +178,23 @@ namespace ChatSggw.API.Controllers
             return commandResult.WasSuccessful()
                 ? Request.CreateResponse(HttpStatusCode.OK, messageId)
                 : Request.CreateResponse(HttpStatusCode.BadRequest, commandResult.ValidationErrors);
+        }
+
+        /// <summary>
+        /// Pobieranie danych lokalizacji użytkowników z konwersacji
+        /// </summary>
+        /// <param name="conversationId">Id czatu</param>        
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{conversationId:guid}/positions")]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(IEnumerable<UserInfoPositionDTO>))]
+        public IEnumerable<UserInfoPositionDTO> GetPositions(Guid conversationId)
+        {
+            return _please.Give(new GetPositionsInConvesationQuery()
+            {
+                ConversationId = conversationId,                
+                UserId = Guid.Parse(User.Identity.GetUserId())
+            });
         }
     }
 }
