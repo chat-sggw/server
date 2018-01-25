@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ChatSggw.DataLayer;
 using ChatSggw.Domain.DTO.User;
@@ -23,16 +22,16 @@ namespace ChatSggw.Services.Queries.User
                 .Where(pair => pair.FirstUserId == query.UserId || pair.SecondUserId == query.UserId)
                 .Select(pair => new
                 {
-                    ConversationId = pair.ConversationId,
-                    FriendId = pair.FirstUserId != query.UserId ? pair.FirstUserId : pair.SecondUserId,
+                    pair.ConversationId,
+                    FriendId = pair.FirstUserId != query.UserId ? pair.FirstUserId : pair.SecondUserId
                 })
-                .Join(_db.Users, pair => pair.FriendId, user => user.Id, (pair, user) => new FriendInfoDTO()
+                .Join(_db.Users, pair => pair.FriendId, user => user.Id, (pair, user) => new FriendInfoDTO
                 {
                     ConversationId = pair.ConversationId,
                     FriendId = user.Id,
                     UserName = user.UserName,
                     HasUnreadMessages = false, //todo
-                    IsActive = true, //todo
+                    IsActive = true //todo
                 })
                 .ToList();
         }

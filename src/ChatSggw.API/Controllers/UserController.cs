@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web.Http;
 using ChatSggw.Domain.Commands.User;
 using ChatSggw.Domain.DTO.User;
+using ChatSggw.Domain.Queries.Conversation;
 using ChatSggw.Domain.Queries.User;
 using ChatSggw.Domain.Structs;
 using Microsoft.AspNet.Identity;
@@ -57,12 +58,20 @@ namespace ChatSggw.API.Controllers
 
         [HttpGet]
         [Route("friends")]
-        public IEnumerable<FriendInfoDTO> GetFriendsInfo()
+        public ChatInfo GetFriendsInfo()
         {
-            return _please.Give(new GetMyFriendsInfoQuery
+            return new ChatInfo
             {
-                UserId = Guid.Parse(User.Identity.GetUserId())
-            });
+                Friends = _please.Give(new GetMyFriendsInfoQuery {UserId = Guid.Parse(User.Identity.GetUserId())}),
+                Conversations =
+                    _please.Give(new GetMyConversationsInfoQuery {UserId = Guid.Parse(User.Identity.GetUserId())})
+            };
+        }
+
+        public class ChatInfo
+        {
+            public IEnumerable<FriendInfoDTO> Friends { get; set; }
+            public IEnumerable<ConversationInfoDTO> Conversations { get; set; }
         }
     }
 }

@@ -43,6 +43,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,6 +64,7 @@
     <Compile Include="DomainEvents.cs" />
     <Compile Include="DTO\FriendsPair\FriendsPairDTO.cs" />
     <Compile Include="DTO\Message\MessageDTO.cs" />
+    <Compile Include="DTO\User\ConversationInfoDTO.cs" />
     <Compile Include="DTO\User\FriendInfoDTO.cs" />
     <Compile Include="DTO\User\UserInfoDTO.cs" />
     <Compile Include="Entities\Conversation\Conversation.cs" />
@@ -68,6 +72,7 @@
     <Compile Include="Entities\FriendsPair\FriendsPair.cs" />
     <Compile Include="Queries\Conversation\GetMessagesInConversationQuery.cs" />
     <Compile Include="Queries\Conversation\SearchForMessagesInConversationQuery.cs" />
+    <Compile Include="Queries\Conversation\GetMyConversationsInfoQuery.cs" />
     <Compile Include="Queries\User\GetMyFriendsInfoQuery.cs" />
     <Compile Include="Queries\User\SearchUserQuery.cs" />
     <Compile Include="Structs\GeoInformation.cs" />
